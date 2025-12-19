@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swift Search</title>
+
+  <!-- Futuristic font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#050b1a;
+      --accent:#00e5ff;
+      --text:#e8f1ff;
+      --card:#0b1530;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      height:100vh;
+      font-family:'Orbitron',sans-serif;
+      background:radial-gradient(circle at top,#0b1b3a,#050b1a 70%);
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .container{
+      text-align:center;
+      width:100%;
+      max-width:720px;
+      padding:20px;
+    }
+
+    h1{font-size:3rem;margin-bottom:10px;letter-spacing:2px;}
+    .subtitle{opacity:.7;margin-bottom:40px;}
+
+    .search-box{
+      background:var(--card);
+      border-radius:40px;
+      padding:10px 20px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      box-shadow:0 0 30px rgba(0,229,255,.25);
+    }
+
+    .search-box input{
+      flex:1;background:none;border:none;outline:none;color:var(--text);font-size:1.1rem;
+    }
+
+    .btn{background:none;border:none;color:var(--accent);font-size:1.3rem;cursor:pointer;}
+
+    .tabs{display:flex;justify-content:center;gap:25px;margin-top:25px;opacity:.8;}
+    .tabs span{cursor:pointer;}
+
+    .ai-panel{
+      margin-top:30px;
+      background:rgba(0,229,255,.08);
+      border:1px solid rgba(0,229,255,.3);
+      border-radius:18px;
+      padding:20px;
+      display:none;
+    }
+
+    iframe{margin-top:25px;width:100%;height:260px;border:none;border-radius:18px;display:none;}
+    footer{margin-top:40px;font-size:.7rem;opacity:.5;}
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Swift Search</h1>
+  <div class="subtitle">Search. Speak. Swift.</div>
+
+  <div class="search-box">
+    <input id="query" placeholder="Search or say a command..." />
+    <button class="btn" onclick="voiceSearch()">🎤</button>
+    <button class="btn" onclick="handleIntent()">🔍</button>
+  </div>
+
+  <div class="tabs">
+    <span onclick="setTab('all')" id="tab-all">All</span>
+    <span onclick="setTab('images')" id="tab-images">Images</span>
+    <span onclick="setTab('videos')" id="tab-videos">Videos</span>
+    <span onclick="setTab('files')" id="tab-files">Files</span>
+  </div>
+
+  <div class="ai-panel" id="aiPanel"></div>
+
+  <div id="keyModal" style="display:none;margin-top:20px;background:rgba(0,0,0,.6);padding:20px;border-radius:14px;">
+    <p style="font-size:.85rem">AIzaSyCBH60P8aGwfrtP-AEG8YKV7NeiNDfletQ</p>
+    <input id="apiKeyInput" placeholder="AIza..." style="width:100%;padding:10px;border-radius:10px;border:none;" />
+    <button class="btn" onclick="saveKey()">Save Key</button>
+  </div>
+
+  <iframe id="player"></iframe>
+  <footer>Swift Search • GitHub Pages • Frontend‑Only AI Assistant</footer>
+</div>
+
+<script>
+let tab='all';
+let lang='en';
+let micActive=false;
+
+function setTab(t){
+  tab=t;
+  document.querySelectorAll('.tabs span').forEach(s=>s.style.textDecoration='none');
+  document.getElementById(`tab-${t}`).style.textDecoration='underline';
+}
+
+function speak(text){
+  if(micActive) return;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang==='tr'?'tr-TR':'en-US';
+  speechSynthesis.speak(u);
+}
+
+async function handleIntent(){
+  const q=document.getElementById('query').value.trim();
+  if(!q) return;
+
+  const text=q.toLowerCase();
+  const panel=document.getElementById('aiPanel');
+  const player=document.getElementById('player');
+  panel.style.display='block';
+  panel.innerHTML=`🤖 Interpreting command: <b>${q}</b>`;
+
+  // Gemini AI
+  if(text.includes('ask')||text.includes('explain')||text.includes('nedir')){
+    const key=localStorage.getItem('GEMINI_KEY');
+    if(!key){document.getElementById('keyModal').style.display='block';return;}
+
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:q}]}]})
+    });
+    const data=await res.json();
+    const answer=data.candidates?.[0]?.content?.parts?.[0]?.text||'No response';
+    panel.innerHTML=`🤖 Gemini AI Answer:<br><br>${answer}`;
+    speak(answer);
+    return;
+  }
+
+  if(text.includes('play')||text.includes('music')||text.includes('şarkı')){
+    player.style.display='block';
+    player.src=`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(q)}&autoplay=1`;
+    return;
+  }
+
+  if(tab==='files'){window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}+filetype:pdf`,'_blank');return;}
+  if(tab==='images'){window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`,'_blank');return;}
+  if(tab==='videos'){window.open(`https://www.google.com/search?tbm=vid&q=${encodeURIComponent(q)}`,'_blank');return;}
+
+  if(text.startsWith('open ')){
+    const site=text.replace('open ','').replace(' ','');
+    window.open(`https://${site}.com`,'_blank');return;
+  }
+
+  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,'_blank');
+}
+
+function saveKey(){
+  const key=document.getElementById('apiKeyInput').value.trim();
+  if(key){localStorage.setItem('GEMINI_KEY',key);document.getElementById('keyModal').style.display='none';}
+}
+
+function voiceSearch(){
+  micActive=true;
+  const rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+  rec.lang=lang==='tr'?'tr-TR':'en-US';
+  rec.start();
+  rec.onresult=e=>{micActive=false;document.getElementById('query').value=e.results[0][0].transcript;handleIntent();};
+  rec.onend=()=>micActive=false;
+}
+
+const searchInput=document.getElementById('query');
+document.addEventListener('keydown',e=>{
+  if(((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='l')||e.key==='/'){e.preventDefault();searchInput.focus();}
+  if(e.key==='Enter'&&document.activeElement===searchInput)handleIntent();
+  if(e.key==='Escape'){searchInput.value='';searchInput.blur();}
+});
+</script>
+
+</body>
+</html>
