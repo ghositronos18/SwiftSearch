@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <title>Swift Search</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Favicon - Tab Logo -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 
 <style>
 body{
@@ -19,29 +26,120 @@ body{
   font-size:2.6rem;
   font-weight:600;
   margin-bottom:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
 }
-.search{
+.logo .ai-badge{
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:0.8rem;
+  font-weight:500;
+}
+.search-wrapper{
+  position:relative;
   display:flex;
   gap:10px;
 }
-input{
+.search-box{
   flex:1;
-  padding:14px 18px;
+  position:relative;
+}
+input{
+  width:100%;
+  padding:14px 80px 14px 18px;
   font-size:1rem;
   border-radius:24px;
   border:none;
   outline:none;
   background:#1f2937;
   color:white;
+  box-sizing:border-box;
 }
-button{
+.search-controls{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  gap:8px;
+}
+.search-btn{
+  background:none;
+  border:none;
+  color:#9ca3af;
+  cursor:pointer;
+  font-size:1.2rem;
+  padding:4px;
+  transition:all 0.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+}
+.search-btn:hover{
+  background:#374151;
+}
+.search-btn.text-search:hover{
+  color:#2563eb;
+}
+.search-btn.voice-search:hover{
+  color:#3b82f6;
+}
+.search-btn.voice-search.listening{
+  color:#ef4444;
+  background:#1f2937;
+  animation:pulse 1.5s infinite;
+}
+.search-btn.swift-ai:hover{
+  color:#8b5cf6;
+  background:linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+}
+.search-btn.swift-ai.active{
+  color:#8b5cf6;
+  background:linear-gradient(135deg, #667eea40 0%, #764ba240 100%);
+  animation:glow 2s infinite;
+}
+.search-btn.file-search:hover{
+  color:#10b981;
+}
+.search-actions{
+  display:flex;
+  gap:8px;
+}
+.action-btn{
   width:46px;
+  height:46px;
   border-radius:50%;
   border:none;
   background:#2563eb;
   color:white;
   cursor:pointer;
   font-size:1.1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.action-btn:hover{
+  background:#1d4ed8;
+}
+button.clear-key{
+  width:auto;
+  padding:10px 16px;
+  border-radius:24px;
+  background:#dc2626;
+  font-size:0.9rem;
+  margin-top:10px;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
+button.clear-key:hover{
+  background:#b91c1c;
 }
 .results{
   margin-top:22px;
@@ -66,6 +164,356 @@ button{
 .keybox input{
   width:100%;
   margin-top:10px;
+  padding:12px 16px;
+}
+.history-item{
+  padding:8px 12px;
+  margin:4px 0;
+  background:#1f2937;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.history-item:hover{
+  background:#374151;
+}
+.loading-spinner{
+  border:3px solid #1f2937;
+  border-top:3px solid #2563eb;
+  border-radius:50%;
+  width:24px;
+  height:24px;
+  animation:spin 1s linear infinite;
+  margin:10px auto;
+}
+.swift-ai-response{
+  border-left:4px solid #8b5cf6;
+  padding-left:12px;
+  margin:10px 0;
+}
+.swift-ai-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+}
+.swift-ai-icon{
+  width:24px;
+  height:24px;
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.9rem;
+}
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+@keyframes pulse{
+  0%,100%{opacity:1;}
+  50%{opacity:0.6;}
+}
+@keyframes glow{
+  0%,100%{box-shadow:0 0 5px #8b5cf6;}
+  50%{box-shadow:0 0 15px #8b5cf6;}
+}
+.music-options{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.music-btn{
+  padding:8px 16px;
+  background:#374151;
+  border-radius:20px;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:background 0.2s;
+  border:none;
+  color:white;
+}
+.music-btn:hover{
+  background:#4b5563;
+}
+.voice-status{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#111827;
+  padding:12px 16px;
+  border-radius:12px;
+  display:none;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  z-index:1000;
+}
+.swift-ai-status{
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.voice-dot{
+  width:10px;
+  height:10px;
+  background:#ef4444;
+  border-radius:50%;
+  animation:pulse 1s infinite;
+}
+.swift-ai-dot{
+  background:#8b5cf6;
+}
+.voice-text{
+  font-size:0.9rem;
+}
+.file-services{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.file-service{
+  background:#1f2937;
+  border-radius:12px;
+  padding:12px;
+  text-align:center;
+  cursor:pointer;
+  transition:background 0.2s, transform 0.2s;
+}
+.file-service:hover{
+  background:#374151;
+  transform:translateY(-2px);
+}
+.file-service i{
+  font-size:1.5rem;
+  margin-bottom:8px;
+  display:block;
+}
+.file-service-name{
+  font-size:0.9rem;
+  font-weight:500;
+}
+.file-service-desc{
+  font-size:0.75rem;
+  color:#9ca3af;
+  margin-top:4px;
+}
+.file-upload-area{
+  border:2px dashed #374151;
+  border-radius:12px;
+  padding:30px 20px;
+  text-align:center;
+  margin-top:15px;
+  cursor:pointer;
+  transition:border-color 0.2s;
+}
+.file-upload-area:hover{
+  border-color:#3b82f6;
+}
+.file-upload-area.dragover{
+  border-color:#10b981;
+  background:#064e3b20;
+}
+.upload-icon{
+  font-size:2rem;
+  margin-bottom:10px;
+}
+#fileList{
+  margin-top:15px;
+  max-height:200px;
+  overflow-y:auto;
+}
+.file-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 12px;
+  background:#1f2937;
+  border-radius:8px;
+  margin-bottom:6px;
+}
+.file-name{
+  flex:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.file-size{
+  font-size:0.8rem;
+  color:#9ca3af;
+  margin-left:10px;
+}
+.file-actions{
+  display:flex;
+  gap:6px;
+}
+.file-action-btn{
+  background:none;
+  border:none;
+  color:#9ca3af;
+  cursor:pointer;
+  font-size:0.9rem;
+  padding:2px 6px;
+}
+.file-action-btn:hover{
+  color:#3b82f6;
+}
+.service-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,0.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+}
+.modal-content{
+  background:#111827;
+  border-radius:16px;
+  padding:20px;
+  max-width:500px;
+  width:90%;
+  max-height:80vh;
+  overflow-y:auto;
+}
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+.modal-close{
+  background:none;
+  border:none;
+  color:#9ca3af;
+  font-size:1.5rem;
+  cursor:pointer;
+  padding:0;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.swift-ai-controls{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.swift-ai-btn{
+  padding:8px 16px;
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius:20px;
+  border:none;
+  color:white;
+  cursor:pointer;
+  font-size:0.9rem;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.swift-ai-btn:hover{
+  opacity:0.9;
+}
+.swift-ai-btn.secondary{
+  background:#374151;
+}
+.command-examples{
+  background:#1f2937;
+  border-radius:12px;
+  padding:15px;
+  margin-top:15px;
+}
+.command-examples h4{
+  margin-top:0;
+  margin-bottom:10px;
+}
+.command-item{
+  padding:6px 0;
+  border-bottom:1px solid #374151;
+}
+.command-item:last-child{
+  border-bottom:none;
+}
+.command-cmd{
+  color:#8b5cf6;
+  font-weight:500;
+}
+.command-desc{
+  color:#9ca3af;
+  font-size:0.85rem;
+  margin-left:8px;
+}
+.api-key-input{
+  background:#1f2937;
+  border:none;
+  border-radius:8px;
+  padding:10px;
+  color:white;
+  width:100%;
+  margin-top:10px;
+}
+.api-options{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+.api-option-btn{
+  flex:1;
+  padding:10px;
+  background:#1f2937;
+  border:none;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+  text-align:center;
+}
+.api-option-btn:hover{
+  background:#374151;
+}
+.api-option-btn.active{
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+@media(max-width:768px){
+  .container{
+    margin:8vh 16px;
+  }
+  .logo{
+    font-size:2rem;
+  }
+  .search-wrapper{
+    flex-direction:column;
+  }
+  .search-actions{
+    width:100%;
+    justify-content:center;
+  }
+  .action-btn{
+    width:100%;
+    border-radius:24px;
+    height:46px;
+  }
+  .voice-status{
+    top:10px;
+    right:10px;
+    left:10px;
+  }
+  input{
+    padding-right:70px;
+  }
+  .file-services{
+    grid-template-columns:repeat(2, 1fr);
+  }
+  .swift-ai-controls{
+    flex-direction:column;
+  }
+  .api-options{
+    flex-direction:column;
+  }
 }
 </style>
 </head>
@@ -73,156 +521,1155 @@ button{
 <body>
 
 <div class="container">
-  <div class="logo">Swift Search</div>
+  <div class="logo">
+    <span>🚀</span> Swift Search
+    <span class="ai-badge">Swift AI</span>
+  </div>
 
-  <div class="search">
-    <input id="q" placeholder="Search, ask AI, or play music">
-    <button id="mic">🎤</button>
+  <div class="search-wrapper">
+    <div class="search-box">
+      <input id="q" placeholder="Ask Swift AI, search, play music, or manage files...">
+      <div class="search-controls">
+        <button class="search-btn text-search" title="Text Search">🔍</button>
+        <button class="search-btn swift-ai" title="Swift AI Assistant">✨</button>
+        <button class="search-btn voice-search" title="Voice Search">🎤</button>
+        <button class="search-btn file-search" title="File Services">📁</button>
+      </div>
+    </div>
+    <div class="search-actions">
+      <button class="action-btn" id="mainSearchBtn" title="Search">↵</button>
+    </div>
+  </div>
+
+  <div id="clearKeyBtn"></div>
+
+  <div class="voice-status" id="voiceStatus">
+    <div class="voice-dot"></div>
+    <div class="voice-text">Listening... Speak now</div>
+  </div>
+
+  <div class="voice-status swift-ai-status" id="swiftAiStatus" style="display:none">
+    <div class="voice-dot swift-ai-dot"></div>
+    <div class="voice-text">Swift AI is listening...</div>
   </div>
 
   <div class="results" id="results"></div>
 </div>
 
+<!-- File Services Modal -->
+<div class="service-modal" id="fileModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="margin:0">File Services</h3>
+      <button class="modal-close" onclick="closeFileModal()">×</button>
+    </div>
+    
+    <div class="file-upload-area" id="uploadArea">
+      <div class="upload-icon">📁</div>
+      <p>Drag & drop files here or click to browse</p>
+      <input type="file" id="fileInput" multiple style="display:none">
+      <p class="note">Supports images, documents, audio, and video files</p>
+    </div>
+    
+    <div id="fileList"></div>
+    
+    <div class="file-services">
+      <div class="file-service" onclick="searchOnService('googleDrive')">
+        <i>📁</i>
+        <div class="file-service-name">Google Drive</div>
+        <div class="file-service-desc">Cloud storage</div>
+      </div>
+      <div class="file-service" onclick="searchOnService('dropbox')">
+        <i>📦</i>
+        <div class="file-service-name">Dropbox</div>
+        <div class="file-service-desc">File sharing</div>
+      </div>
+      <div class="file-service" onclick="searchOnService('onedrive')">
+        <i>☁️</i>
+        <div class="file-service-name">OneDrive</div>
+        <div class="file-service-desc">Microsoft cloud</div>
+      </div>
+      <div class="file-service" onclick="searchOnService('icloud')">
+        <i>🍎</i>
+        <div class="file-service-name">iCloud</div>
+        <div class="file-service-desc">Apple cloud</div>
+      </div>
+      <div class="file-service" onclick="openService('wetransfer')">
+        <i>📤</i>
+        <div class="file-service-name">WeTransfer</div>
+        <div class="file-service-desc">File transfer</div>
+      </div>
+      <div class="file-service" onclick="openService('figma')">
+        <i>🎨</i>
+        <div class="file-service-name">Figma</div>
+        <div class="file-service-desc">Design files</div>
+      </div>
+      <div class="file-service" onclick="openService('github')">
+        <i>💻</i>
+        <div class="file-service-name">GitHub</div>
+        <div class="file-service-desc">Code files</div>
+      </div>
+      <div class="file-service" onclick="openService('notion')">
+        <i>📝</i>
+        <div class="file-service-name">Notion</div>
+        <div class="file-service-desc">Documents</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const input = document.getElementById("q");
 const results = document.getElementById("results");
+const clearKeyBtn = document.getElementById("clearKeyBtn");
+const swiftAiBtn = document.querySelector('.swift-ai');
+const voiceBtn = document.querySelector('.voice-search');
+const textSearchBtn = document.querySelector('.text-search');
+const fileSearchBtn = document.querySelector('.file-search');
+const mainSearchBtn = document.getElementById("mainSearchBtn");
+const voiceStatus = document.getElementById("voiceStatus");
+const swiftAiStatus = document.getElementById("swiftAiStatus");
+const fileModal = document.getElementById("fileModal");
+const uploadArea = document.getElementById("uploadArea");
+const fileInput = document.getElementById("fileInput");
+const fileList = document.getElementById("fileList");
 
+/* ---------- AI API CONFIGURATION ---------- */
+// Using free AI APIs that work without authentication
+let AI_PROVIDER = localStorage.getItem("AI_PROVIDER") || "gemini";
+let AI_API_KEY = localStorage.getItem("AI_API_KEY") || "";
+let swiftAiMode = false;
 
-let GEMINI_KEY = localStorage.getItem("GEMINI_KEY");
+// Free AI API endpoints (no key required for some)
+const AI_APIS = {
+  gemini: {
+    name: "Google Gemini",
+    endpoint: "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent",
+    requiresKey: true,
+    freeKeyUrl: "https://makersuite.google.com/app/apikey"
+  },
+  deepseek: {
+    name: "DeepSeek (Free)",
+    endpoint: "https://api.deepseek.com/v1/chat/completions",
+    requiresKey: false,
+    freeKeyUrl: "https://platform.deepseek.com/api_keys"
+  },
+  openrouter: {
+    name: "OpenRouter (Free)",
+    endpoint: "https://openrouter.ai/api/v1/chat/completions",
+    requiresKey: false,
+    freeKeyUrl: "https://openrouter.ai/keys"
+  },
+  huggingface: {
+    name: "HuggingFace",
+    endpoint: "https://api-inference.huggingface.co/models/google/flan-t5-xxl",
+    requiresKey: false
+  }
+};
 
-function showKeyInput(){
+function showAIProviderSelection(){
   results.innerHTML = `
-    <div class="keybox">
-      <b>Enter Gemini API Key</b>
-      <p class="note">Stored locally in your browser</p>
-      <input id="keyInput" placeholder="AIza..." />
-      <button style="margin-top:10px" onclick="saveKey()">Save</button>
+    <div class="card">
+      <div class="swift-ai-header">
+        <div class="swift-ai-icon">✨</div>
+        <h3 style="margin:0">Choose AI Provider</h3>
+      </div>
+      <p>Select an AI service to power Swift AI:</p>
+      
+      <div class="api-options">
+        <button class="api-option-btn ${AI_PROVIDER === 'gemini' ? 'active' : ''}" onclick="selectAIProvider('gemini')">
+          <div style="font-weight:500">Google Gemini</div>
+          <div style="font-size:0.8rem; color:#9ca3af">Most capable (API key needed)</div>
+        </button>
+        <button class="api-option-btn ${AI_PROVIDER === 'deepseek' ? 'active' : ''}" onclick="selectAIProvider('deepseek')">
+          <div style="font-weight:500">DeepSeek</div>
+          <div style="font-size:0.8rem; color:#9ca3af">Free tier available</div>
+        </button>
+        <button class="api-option-btn ${AI_PROVIDER === 'openrouter' ? 'active' : ''}" onclick="selectAIProvider('openrouter')">
+          <div style="font-weight:500">OpenRouter</div>
+          <div style="font-size:0.8rem; color:#9ca3af">Multiple models</div>
+        </button>
+      </div>
+      
+      ${AI_APIS[AI_PROVIDER].requiresKey ? `
+        <div style="margin-top:15px">
+          <p>Enter your ${AI_APIS[AI_PROVIDER].name} API Key:</p>
+          <input class="api-key-input" id="keyInput" placeholder="Enter API key..." value="${AI_API_KEY || ''}" />
+          <button style="margin-top:10px; width:100%; border-radius:24px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border:none; color:white; padding:10px;" onclick="saveAPIKey()">Save & Activate</button>
+          ${AI_APIS[AI_PROVIDER].freeKeyUrl ? `
+            <p class="note" style="margin-top:8px">
+              Get a free key from <a href="${AI_APIS[AI_PROVIDER].freeKeyUrl}" target="_blank" style="color:#8b5cf6">${AI_APIS[AI_PROVIDER].freeKeyUrl}</a>
+            </p>
+          ` : ''}
+        </div>
+      ` : `
+        <div style="margin-top:15px">
+          <p>${AI_APIS[AI_PROVIDER].name} is ready to use! No API key required for basic usage.</p>
+          <button style="margin-top:10px; width:100%; border-radius:24px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border:none; color:white; padding:10px;" onclick="activateSwiftAI()">Start Using Swift AI</button>
+        </div>
+      `}
+      
+      <div class="note" style="margin-top:15px">
+        <strong>Note:</strong> Free AI services may have rate limits. For unlimited usage, use Google Gemini with a free API key.
+      </div>
     </div>
   `;
 }
 
-function saveKey(){
-  const k = document.getElementById("keyInput").value.trim();
-  if(!k) return;
-  localStorage.setItem("GEMINI_KEY",k);
-  GEMINI_KEY = k;
-  results.innerHTML = "";
+function selectAIProvider(provider){
+  AI_PROVIDER = provider;
+  localStorage.setItem("AI_PROVIDER", provider);
+  showAIProviderSelection();
 }
 
-
-function openGoogle(q){
-  window.open(
-    `https://www.google.com/search?q=${encodeURIComponent(q)}`,
-    "_blank"
-  );
-}
-function openYouTube(q){
-  window.open(
-    `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,
-    "_blank"
-  );
-}
-function openYouTubeMusic(q){
-  window.open(
-    `https://music.youtube.com/search?q=${encodeURIComponent(q)}`,
-    "_blank"
-  );
-}
-function openSpotify(q){
-  window.open(
-    `https://open.spotify.com/search/${encodeURIComponent(q)}`,
-    "_blank"
-  );
-}
-function openMail(){
-  window.open("https://mail.google.com","_blank");
+function saveAPIKey(){
+  const key = document.getElementById("keyInput").value.trim();
+  if(!key) return;
+  
+  AI_API_KEY = key;
+  localStorage.setItem("AI_API_KEY", key);
+  
+  results.innerHTML = `
+    <div class="card">
+      <div class="swift-ai-response">
+        <div class="swift-ai-header">
+          <div class="swift-ai-icon">✨</div>
+          <b>${AI_APIS[AI_PROVIDER].name} Activated!</b>
+        </div>
+        <p>Swift AI is now powered by ${AI_APIS[AI_PROVIDER].name}. Try saying "Hey Swift" or click the ✨ button.</p>
+        <div class="swift-ai-controls">
+          <button class="swift-ai-btn" onclick="activateSwiftAI()">
+            <span>✨</span> Start Using Swift AI
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-async function askGemini(prompt){
-  if(!GEMINI_KEY){
-    showKeyInput();
+function updateClearKeyButton(){
+  if(AI_API_KEY){
+    clearKeyBtn.innerHTML = `
+      <button class="clear-key" onclick="clearAPIKey()">
+        Clear ${AI_APIS[AI_PROVIDER].name} Key
+      </button>
+    `;
+  }else{
+    clearKeyBtn.innerHTML = '';
+  }
+}
+
+function clearAPIKey(){
+  localStorage.removeItem('AI_API_KEY');
+  AI_API_KEY = null;
+  updateClearKeyButton();
+  showAIProviderSelection();
+}
+
+/* ---------- SWIFT AI ASSISTANT WITH API ---------- */
+async function swiftAIQuery(prompt){
+  // If no provider is selected, show selection screen
+  if(!AI_PROVIDER){
+    showAIProviderSelection();
     return null;
   }
+  
+  // If provider requires key but we don't have one
+  if(AI_APIS[AI_PROVIDER].requiresKey && !AI_API_KEY){
+    showAIProviderSelection();
+    return null;
+  }
+  
+  try{
+    let response;
+    
+    switch(AI_PROVIDER){
+      case 'gemini':
+        response = await callGeminiAPI(prompt);
+        break;
+      case 'deepseek':
+        response = await callDeepSeekAPI(prompt);
+        break;
+      case 'openrouter':
+        response = await callOpenRouterAPI(prompt);
+        break;
+      case 'huggingface':
+        response = await callHuggingFaceAPI(prompt);
+        break;
+      default:
+        response = await callFallbackAI(prompt);
+    }
+    
+    return response;
+    
+  }catch(error){
+    console.error("Swift AI fetch error:", error);
+    return callFallbackAI(prompt);
+  }
+}
 
+// Google Gemini API
+async function callGeminiAPI(prompt){
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_KEY}`,
+    `${AI_APIS.gemini.endpoint}?key=${AI_API_KEY}`,
     {
       method:"POST",
       headers:{ "Content-Type":"application/json" },
       body:JSON.stringify({
-        contents:[{ parts:[{ text: prompt }] }]
+        contents:[{ 
+          parts:[{ 
+            text: `You are Swift AI, a helpful and friendly voice assistant. Respond conversationally to: "${prompt}". Keep responses concise and helpful.`
+          }] 
+        }]
       })
     }
   );
 
+  if(!res.ok) throw new Error(`API Error: ${res.status}`);
+  
   const data = await res.json();
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+  
+  if(data.error){
+    throw new Error(data.error.message);
+  }
+  
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here to help! What else can I do for you?";
 }
 
+// DeepSeek API (free tier available)
+async function callDeepSeekAPI(prompt){
+  const res = await fetch(AI_APIS.deepseek.endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": AI_API_KEY ? `Bearer ${AI_API_KEY}` : ""
+    },
+    body: JSON.stringify({
+      model: "deepseek-chat",
+      messages: [
+        {
+          role: "system",
+          content: "You are Swift AI, a helpful and friendly voice assistant. Respond conversationally and keep responses concise."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      max_tokens: 500
+    })
+  });
 
-async function handle(query){
-  const q = query.toLowerCase().trim();
-  results.innerHTML = "";
+  if(!res.ok) throw new Error(`API Error: ${res.status}`);
+  
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || "I'm here to help!";
+}
 
-  /* 🎵 MUSIC INTENT */
-  if (q.startsWith("play ")) {
-    const song = query.replace(/^play\s+/i,"");
+// OpenRouter API (free tier available)
+async function callOpenRouterAPI(prompt){
+  const res = await fetch(AI_APIS.openrouter.endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": AI_API_KEY ? `Bearer ${AI_API_KEY}` : "",
+      "HTTP-Referer": "https://swift-search.com",
+      "X-Title": "Swift Search"
+    },
+    body: JSON.stringify({
+      model: "openai/gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "You are Swift AI, a helpful and friendly voice assistant. Respond conversationally and keep responses concise."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      max_tokens: 500
+    })
+  });
 
-    if (q.includes("youtube music")) return openYouTubeMusic(song);
-    if (q.includes("youtube")) return openYouTube(song);
-    if (q.includes("spotify")) return openSpotify(song);
+  if(!res.ok) throw new Error(`API Error: ${res.status}`);
+  
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || "I'm here to help!";
+}
 
-    return openSpotify(song);
+// HuggingFace API (free, no key required)
+async function callHuggingFaceAPI(prompt){
+  const res = await fetch(AI_APIS.huggingface.endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": AI_API_KEY ? `Bearer ${AI_API_KEY}` : ""
+    },
+    body: JSON.stringify({
+      inputs: prompt
+    })
+  });
+
+  if(!res.ok) throw new Error(`API Error: ${res.status}`);
+  
+  const data = await res.json();
+  return data?.[0]?.generated_text || "I'm here to help!";
+}
+
+// Fallback AI using rule-based responses
+function callFallbackAI(prompt){
+  const q = prompt.toLowerCase();
+  
+  // Rule-based responses for common queries
+  if(q.includes("hello") || q.includes("hi") || q.includes("hey")){
+    return "Hello! I'm Swift AI, your personal assistant. How can I help you today?";
   }
+  
+  if(q.includes("how are you")){
+    return "I'm doing great, thanks for asking! Ready to help you with anything you need.";
+  }
+  
+  if(q.includes("weather")){
+    return "I can't check real-time weather, but you can search 'weather' to get current conditions.";
+  }
+  
+  if(q.includes("time")){
+    const now = new Date();
+    return `The current time is ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}.`;
+  }
+  
+  if(q.includes("joke")){
+    const jokes = [
+      "Why don't scientists trust atoms? Because they make up everything!",
+      "Why did the scarecrow win an award? Because he was outstanding in his field!",
+      "What do you call a fake noodle? An impasta!",
+      "Why did the coffee file a police report? It got mugged!",
+      "What's orange and sounds like a parrot? A carrot!"
+    ];
+    return jokes[Math.floor(Math.random() * jokes.length)];
+  }
+  
+  if(q.includes("thank")){
+    return "You're welcome! Is there anything else I can help you with?";
+  }
+  
+  if(q.includes("who are you") || q.includes("what are you")){
+    return "I'm Swift AI, your personal voice assistant. I can help you with questions, calculations, reminders, and more!";
+  }
+  
+  if(q.includes("help")){
+    return "I can help you with: answering questions, telling jokes, setting timers, calculations, and more. Just ask!";
+  }
+  
+  // For calculations
+  if(q.includes("calculate") || q.match(/\d+[\+\-\*\/]\d+/)){
+    try{
+      const mathExpr = q.replace(/calculate|what is|how much is/gi, "").trim();
+      const result = eval(mathExpr.replace(/[^-()\d/*+.]/g, ''));
+      return `The result is ${result}`;
+    }catch(e){
+      return "I couldn't calculate that. Please try a simpler math expression.";
+    }
+  }
+  
+  // Default response
+  return `I understand you're asking about "${prompt}". For detailed answers, please enable an AI provider in settings. You can say things like: "Tell me a joke", "What time is it?", or ask me to calculate something.`;
+}
 
-  /* DIRECT SERVICES */
-  if (q.includes("youtube")) return openYouTube(query);
-  if (q.includes("spotify")) return openSpotify(query);
-  if (q.includes("gmail") || q.includes("email")) return openMail();
+function activateSwiftAI(){
+  swiftAiMode = true;
+  swiftAiBtn.classList.add('active');
+  input.placeholder = "Ask Swift AI anything...";
+  input.focus();
+  
+  results.innerHTML = `
+    <div class="card">
+      <div class="swift-ai-response">
+        <div class="swift-ai-header">
+          <div class="swift-ai-icon">✨</div>
+          <b>Swift AI Activated</b>
+        </div>
+        <p>Hello! I'm Swift AI, your personal assistant. How can I help you today?</p>
+        <div class="command-examples">
+          <h4>Try saying:</h4>
+          <div class="command-item">
+            <span class="command-cmd">"What's the time?"</span>
+            <span class="command-desc">- Get current time</span>
+          </div>
+          <div class="command-item">
+            <span class="command-cmd">"Tell me a joke"</span>
+            <span class="command-desc">- Have some fun</span>
+          </div>
+          <div class="command-item">
+            <span class="command-cmd">"Calculate 15% tip on $45"</span>
+            <span class="command-desc">- Math calculations</span>
+          </div>
+          <div class="command-item">
+            <span class="command-cmd">"Who are you?"</span>
+            <span class="command-desc">- Learn about Swift AI</span>
+          </div>
+          <div class="command-item">
+            <span class="command-cmd">"How are you?"</span>
+            <span class="command-desc">- Chat with me</span>
+          </div>
+        </div>
+        <div class="swift-ai-controls">
+          <button class="swift-ai-btn" onclick="startSwiftAIVoice()">
+            <span>🎤</span> Voice Command
+          </button>
+          <button class="swift-ai-btn secondary" onclick="showAIProviderSelection()">
+            <span>⚙️</span> AI Settings
+          </button>
+          <button class="swift-ai-btn secondary" onclick="deactivateSwiftAI()">
+            <span>🔍</span> Back to Search
+          </button>
+        </div>
+        ${!AI_API_KEY && AI_APIS[AI_PROVIDER].requiresKey ? `
+          <div class="note" style="margin-top:10px; padding:10px; background:#1f2937; border-radius:8px;">
+            <strong>⚠️ AI Provider Not Configured</strong>
+            <p style="margin:5px 0 0 0; font-size:0.9rem">For full AI capabilities, please configure an AI provider in settings.</p>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
 
-  if (q.startsWith("open ")) {
-    const site = q.replace("open ","").replace(/\s+/g,"");
-    window.open(`https://${site}.com`,"_blank");
+function deactivateSwiftAI(){
+  swiftAiMode = false;
+  swiftAiBtn.classList.remove('active');
+  input.placeholder = "Ask Swift AI, search, play music, or manage files...";
+  results.innerHTML = showHistory();
+}
+
+async function handleSwiftAIQuery(query){
+  const q = query.toLowerCase().trim();
+  
+  // Handle voice wake word
+  if(q.includes("hey swift") || q.includes("hello swift") || q.includes("okay swift")){
+    const response = await swiftAIQuery(query.replace(/hey swift|hello swift|okay swift/gi, "").trim());
+    speakSwiftAIResponse(response);
+    return `
+      <div class="card">
+        <div class="swift-ai-response">
+          <div class="swift-ai-header">
+            <div class="swift-ai-icon">✨</div>
+            <b>Swift AI</b>
+          </div>
+          <p>${response}</p>
+          <div class="note">Speaking response...</div>
+          <div class="swift-ai-controls">
+            <button class="swift-ai-btn secondary" onclick="activateSwiftAI()">
+              <span>✨</span> Ask Another Question
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // Handle common assistant commands
+  const response = await swiftAIQuery(query);
+  speakSwiftAIResponse(response);
+  return `
+    <div class="card">
+      <div class="swift-ai-response">
+        <div class="swift-ai-header">
+          <div class="swift-ai-icon">✨</div>
+          <b>Swift AI</b>
+        </div>
+        <p>${response}</p>
+        <div class="note">Speaking response...</div>
+        <div class="swift-ai-controls">
+          <button class="swift-ai-btn secondary" onclick="activateSwiftAI()">
+            <span>✨</span> Ask Another Question
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function speakSwiftAIResponse(text){
+  if('speechSynthesis' in window){
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    speechSynthesis.speak(utterance);
+  }
+}
+
+function startSwiftAIVoice(){
+  if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const swiftRecognition = new SpeechRecognition();
+    swiftRecognition.continuous = false;
+    swiftRecognition.interimResults = false;
+    swiftRecognition.lang = 'en-US';
+    
+    swiftAiStatus.style.display = 'flex';
+    
+    swiftRecognition.onresult = async (event) => {
+      const transcript = event.results[0][0].transcript;
+      input.value = transcript;
+      swiftAiStatus.style.display = 'none';
+      
+      results.innerHTML = `
+        <div class="card">
+          <div class="swift-ai-response">
+            <div class="swift-ai-header">
+              <div class="swift-ai-icon">✨</div>
+              <b>Processing your request...</b>
+            </div>
+            <div class="loading-spinner"></div>
+          </div>
+        </div>
+      `;
+      
+      const swiftAIResult = await handleSwiftAIQuery(transcript);
+      results.innerHTML = swiftAIResult;
+    };
+    
+    swiftRecognition.onerror = () => {
+      swiftAiStatus.style.display = 'none';
+    };
+    
+    swiftRecognition.onend = () => {
+      swiftAiStatus.style.display = 'none';
+    };
+    
+    swiftRecognition.start();
+  }else{
+    alert('Voice recognition not supported in your browser');
+  }
+}
+
+/* ---------- SEARCH HISTORY ---------- */
+let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+let uploadedFiles = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
+
+function addToHistory(query){
+  if(!query.trim()) return;
+  
+  searchHistory = searchHistory.filter(item => item.toLowerCase() !== query.toLowerCase());
+  searchHistory.unshift(query);
+  searchHistory = searchHistory.slice(0,10);
+  
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+}
+
+function showHistory(){
+  if(searchHistory.length === 0 && uploadedFiles.length === 0) return '';
+  
+  let historyHTML = '';
+  
+  if(uploadedFiles.length > 0){
+    historyHTML += `
+      <div class="card">
+        <b>Recent Files</b>
+        ${uploadedFiles.slice(0, 3).map(file => `
+          <div class="file-item" onclick="openFile('${file.name}')">
+            <div class="file-name">📄 ${file.name}</div>
+            <div class="file-size">${formatFileSize(file.size)}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  
+  if(searchHistory.length > 0){
+    const historyItems = searchHistory.map(item => `
+      <div class="history-item" onclick="input.value='${item.replace(/'/g, "\\'")}'; handle('${item.replace(/'/g, "\\'")}')">
+        ${item}
+      </div>
+    `).join('');
+    
+    historyHTML += `
+      <div class="card">
+        <b>Recent Searches</b>
+        ${historyItems}
+      </div>
+    `;
+  }
+  
+  return historyHTML;
+}
+
+function formatFileSize(bytes){
+  if(bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+/* ---------- FILE SERVICES ---------- */
+function openFileModal(){
+  fileModal.style.display = 'flex';
+  renderFileList();
+}
+
+function closeFileModal(){
+  fileModal.style.display = 'none';
+}
+
+function searchOnService(service){
+  const query = input.value.trim();
+  if(query){
+    switch(service){
+      case 'googleDrive':
+        window.open(`https://drive.google.com/drive/search?q=${encodeURIComponent(query)}`, '_blank');
+        break;
+      case 'dropbox':
+        window.open(`https://www.dropbox.com/search/personal?query=${encodeURIComponent(query)}`, '_blank');
+        break;
+      case 'onedrive':
+        window.open(`https://onedrive.live.com/?qt=search&q=${encodeURIComponent(query)}`, '_blank');
+        break;
+      case 'icloud':
+        window.open(`https://www.icloud.com/#search=${encodeURIComponent(query)}`, '_blank');
+        break;
+    }
+  }else{
+    openService(service);
+  }
+  closeFileModal();
+}
+
+function openService(service){
+  const urls = {
+    wetransfer: 'https://wetransfer.com',
+    figma: 'https://figma.com',
+    github: 'https://github.com',
+    notion: 'https://notion.so',
+    googledrive: 'https://drive.google.com',
+    dropbox: 'https://dropbox.com',
+    onedrive: 'https://onedrive.live.com',
+    icloud: 'https://icloud.com'
+  };
+  window.open(urls[service] || `https://${service}.com`, '_blank');
+  closeFileModal();
+}
+
+/* ---------- FILE UPLOAD ---------- */
+uploadArea.addEventListener('click', () => fileInput.click());
+
+uploadArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadArea.classList.add('dragover');
+});
+
+uploadArea.addEventListener('dragleave', () => {
+  uploadArea.classList.remove('dragover');
+});
+
+uploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  const files = Array.from(e.dataTransfer.files);
+  handleFiles(files);
+});
+
+fileInput.addEventListener('change', (e) => {
+  const files = Array.from(e.target.files);
+  handleFiles(files);
+  fileInput.value = '';
+});
+
+function handleFiles(files){
+  files.forEach(file => {
+    const fileData = {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified,
+      preview: URL.createObjectURL(file)
+    };
+    
+    uploadedFiles.unshift(fileData);
+    if(uploadedFiles.length > 10) uploadedFiles.pop();
+    
+    localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
+  });
+  
+  renderFileList();
+  
+  results.innerHTML = `
+    <div class="card">
+      <b>📁 Files Uploaded</b>
+      <p>Successfully uploaded ${files.length} file(s). You can access them in File Services.</p>
+    </div>
+  `;
+}
+
+function renderFileList(){
+  fileList.innerHTML = uploadedFiles.length > 0 ? 
+    uploadedFiles.slice(0, 5).map(file => `
+      <div class="file-item">
+        <div class="file-name">📄 ${file.name}</div>
+        <div class="file-size">${formatFileSize(file.size)}</div>
+        <div class="file-actions">
+          <button class="file-action-btn" onclick="openFile('${file.name}')" title="Open">🔍</button>
+          <button class="file-action-btn" onclick="removeFile('${file.name}')" title="Remove">🗑️</button>
+        </div>
+      </div>
+    `).join('') : 
+    '<p class="note" style="text-align:center">No files uploaded yet</p>';
+}
+
+function openFile(filename){
+  const file = uploadedFiles.find(f => f.name === filename);
+  if(file && file.preview){
+    window.open(file.preview, '_blank');
+  }
+}
+
+function removeFile(filename){
+  uploadedFiles = uploadedFiles.filter(f => f.name !== filename);
+  localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
+  renderFileList();
+}
+
+/* ---------- MUSIC SERVICES ---------- */
+function playOnYouTube(songQuery){
+  window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(songQuery)}&sp=EgIQAQ%253D%253D`, "_blank");
+}
+
+function playOnYouTubeMusic(songQuery){
+  window.open(`https://music.youtube.com/search?q=${encodeURIComponent(songQuery)}`, "_blank");
+}
+
+function playOnSpotify(songQuery){
+  window.open(`https://open.spotify.com/search/${encodeURIComponent(songQuery)}`, "_blank");
+}
+
+function parseMusicQuery(query){
+  const patterns = [
+    /play\s+"(.+?)"\s+by\s+(.+)/i,
+    /play\s+(.+?)\s+by\s+(.+)/i,
+    /play\s+(.+)\s+on\s+(.+)/i,
+    /play\s+(.+)/i
+  ];
+  
+  for(const pattern of patterns){
+    const match = query.match(pattern);
+    if(match){
+      if(pattern.toString().includes('by')){
+        return {
+          song: match[1].trim(),
+          artist: match[2].trim(),
+          fullQuery: `${match[1].trim()} ${match[2].trim()}`
+        };
+      }else{
+        return {
+          song: match[1].trim(),
+          artist: '',
+          fullQuery: match[1].trim()
+        };
+      }
+    }
+  }
+  
+  return {
+    song: query.replace(/^play\s+/i, '').trim(),
+    artist: '',
+    fullQuery: query.replace(/^play\s+/i, '').trim()
+  };
+}
+
+/* ---------- LOADING STATES ---------- */
+function showLoading(){
+  results.innerHTML = `
+    <div class="card">
+      <b>Searching...</b>
+      <div class="loading-spinner"></div>
+    </div>
+  `;
+}
+
+/* ---------- VOICE SEARCH ---------- */
+let isListening = false;
+let recognition = null;
+
+if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+  
+  recognition.onstart = () => {
+    isListening = true;
+    voiceBtn.classList.add('listening');
+    voiceStatus.style.display = 'flex';
+  };
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    input.value = transcript;
+    handle(transcript);
+  };
+  
+  recognition.onerror = (event) => {
+    console.error('Speech recognition error:', event.error);
+    if(event.error === 'not-allowed'){
+      alert('Microphone access denied. Please allow microphone access to use voice search.');
+    }
+  };
+  
+  recognition.onend = () => {
+    isListening = false;
+    voiceBtn.classList.remove('listening');
+    voiceStatus.style.display = 'none';
+  };
+  
+  voiceBtn.addEventListener('click', () => {
+    if(isListening){
+      recognition.stop();
+    }else{
+      try{
+        recognition.start();
+      }catch(error){
+        console.error('Speech recognition start error:', error);
+        alert('Voice search is not available. Please check your microphone permissions.');
+      }
+    }
+  });
+  
+  voiceBtn.title = 'Voice Search (Click to start/stop)';
+}else{
+  voiceBtn.style.display = 'none';
+}
+
+/* ---------- BUTTON HANDLERS ---------- */
+textSearchBtn.addEventListener('click', () => {
+  if(input.value.trim()){
+    handle(input.value);
+  }else{
+    input.focus();
+  }
+});
+
+swiftAiBtn.addEventListener('click', () => {
+  if(swiftAiMode){
+    deactivateSwiftAI();
+  }else{
+    activateSwiftAI();
+  }
+});
+
+fileSearchBtn.addEventListener('click', openFileModal);
+
+mainSearchBtn.addEventListener('click', () => {
+  if(input.value.trim()){
+    handle(input.value);
+  }else{
+    input.focus();
+  }
+});
+
+/* ---------- MAIN HANDLER ---------- */
+async function handle(query){
+  const q = query.trim();
+  if(!q) return;
+  
+  addToHistory(query);
+  
+  // Check if Swift AI mode is active or query contains wake word
+  if(swiftAiMode || q.toLowerCase().includes("hey swift") || q.toLowerCase().includes("okay swift")){
+    const swiftAIResult = await handleSwiftAIQuery(q);
+    results.innerHTML = swiftAIResult;
     return;
   }
-
-  /* AI + WEB FUSION */
+  
+  results.innerHTML = showHistory();
+  showLoading();
+  
+  const lowerQuery = q.toLowerCase();
+  
+  /* 🎵 MUSIC INTENT */
+  if(lowerQuery.startsWith("play ")){
+    const musicData = parseMusicQuery(q);
+    const songQuery = musicData.fullQuery;
+    
+    results.innerHTML = `
+      <div class="card">
+        <b>🎵 Play: ${songQuery}</b>
+        ${musicData.artist ? `<p class="note">Artist: ${musicData.artist}</p>` : ''}
+        <div class="music-options">
+          <button class="music-btn" onclick="playOnSpotify('${songQuery.replace(/'/g, "\\'")}')">Spotify</button>
+          <button class="music-btn" onclick="playOnYouTubeMusic('${songQuery.replace(/'/g, "\\'")}')">YouTube Music</button>
+          <button class="music-btn" onclick="playOnYouTube('${songQuery.replace(/'/g, "\\'")}')">YouTube</button>
+        </div>
+        <p class="note" style="margin-top:10px;">Auto-playing on Spotify...</p>
+      </div>
+    `;
+    
+    setTimeout(() => playOnSpotify(songQuery), 500);
+    return;
+  }
+  
+  /* 📁 FILE SEARCH INTENT */
+  if(lowerQuery.startsWith("find ") || lowerQuery.startsWith("search ") || 
+     lowerQuery.includes("file") || lowerQuery.includes("document")){
+    
+    if(lowerQuery.includes("drive") || lowerQuery.includes("google")){
+      window.open(`https://drive.google.com/drive/search?q=${encodeURIComponent(q)}`, "_blank");
+      results.innerHTML = `<div class="card">Searching Google Drive for: ${q}</div>`;
+      return;
+    }
+    
+    if(lowerQuery.includes("dropbox")){
+      window.open(`https://www.dropbox.com/search/personal?query=${encodeURIComponent(q)}`, "_blank");
+      results.innerHTML = `<div class="card">Searching Dropbox for: ${q}</div>`;
+      return;
+    }
+    
+    // General file search - show file services
+    openFileModal();
+    return;
+  }
+  
+  /* DIRECT SERVICES */
+  if(lowerQuery.includes("youtube") && !lowerQuery.includes("youtube music")){
+    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, "_blank");
+    results.innerHTML = `<div class="card">Opening YouTube for: ${q}</div>`;
+    return;
+  }
+  
+  if(lowerQuery.includes("spotify")){
+    window.open(`https://open.spotify.com/search/${encodeURIComponent(q)}`, "_blank");
+    results.innerHTML = `<div class="card">Opening Spotify for: ${q}</div>`;
+    return;
+  }
+  
+  if(lowerQuery.includes("gmail") || lowerQuery.includes("email")){
+    window.open("https://mail.google.com", "_blank");
+    results.innerHTML = `<div class="card">Opening Gmail</div>`;
+    return;
+  }
+  
+  if(lowerQuery.startsWith("open ")){
+    const site = q.replace("open ", "").replace(/\s+/g, "");
+    window.open(`https://${site}.com`, "_blank");
+    results.innerHTML = `<div class="card">Opening ${site}.com</div>`;
+    return;
+  }
+  
+  /* WEB SEARCH */
+  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, "_blank");
   results.innerHTML = `
     <div class="card">
-      <b>AI Overview</b>
-      <p class="note">Thinking…</p>
+      <b>Web Search Results</b>
+      <p>Search results for "${q}" have been opened in a new tab.</p>
+      <div class="swift-ai-controls">
+        <button class="swift-ai-btn" onclick="activateSwiftAI()">
+          <span>✨</span> Ask Swift AI about this
+        </button>
+      </div>
     </div>
   `;
-
-  const aiAnswer = await askGemini(query);
-
-  results.innerHTML = `
-    <div class="card">
-      <b>AI Overview</b>
-      <p>${aiAnswer || "No AI response available."}</p>
-      <div class="note">Web results opened in new tab</div>
-    </div>
-  `;
-
-  openGoogle(query);
 }
 
-input.addEventListener("keydown",e=>{
-  if (e.key === "Enter") handle(input.value);
-
-  if (e.key === "/") {
+/* ---------- KEYBOARD SHORTCUTS ---------- */
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter"){
+    handle(input.value);
+  }
+  
+  if(e.key === "/"){
     e.preventDefault();
     input.focus();
+    input.select();
   }
-
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
+  
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l"){
     e.preventDefault();
     input.focus();
+    input.select();
   }
-
-  if (e.key === "Escape") {
+  
+  if(e.key === "Escape"){
+    if(isListening && recognition){
+      recognition.stop();
+    }
     input.value = "";
     input.blur();
+    if(swiftAiMode){
+      deactivateSwiftAI();
+    }
+  }
+  
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "f"){
+    e.preventDefault();
+    openFileModal();
+  }
+  
+  if((e.ctrlKey || e.metaKey) && e.key === " "){
+    e.preventDefault();
+    activateSwiftAI();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if(e.key === ' ' && isListening && recognition){
+    e.preventDefault();
+    recognition.stop();
+  }
+});
+
+/* ---------- INITIALIZE ---------- */
+updateClearKeyButton();
+renderFileList();
+results.innerHTML = showHistory();
+
+setTimeout(() => input.focus(), 100);
+
+// Show AI provider selection on first load
+if(!localStorage.getItem("AI_PROVIDER")){
+  setTimeout(() => {
+    showAIProviderSelection();
+  }, 500);
+}else if(searchHistory.length === 0 && uploadedFiles.length === 0){
+  setTimeout(() => {
+    results.innerHTML = `
+      <div class="card">
+        <div class="swift-ai-response">
+          <div class="swift-ai-header">
+            <div class="swift-ai-icon">✨</div>
+            <b>Welcome to Swift Search with Swift AI!</b>
+          </div>
+          <p>Four ways to interact:</p>
+          <ul style="margin:10px 0; padding-left:20px;">
+            <li><strong>🔍 Text Search</strong> - Type and press Enter</li>
+            <li><strong>✨ Swift AI</strong> - Your personal voice assistant</li>
+            <li><strong>🎤 Voice Search</strong> - Click microphone icon</li>
+            <li><strong>📁 File Search</strong> - Cloud storage & file upload</li>
+          </ul>
+          <p>Try saying "Hey Swift" or click the ✨ button to activate Swift AI.</p>
+          <div class="swift-ai-controls">
+            <button class="swift-ai-btn" onclick="activateSwiftAI()">
+              <span>✨</span> Activate Swift AI
+            </button>
+            <button class="swift-ai-btn secondary" onclick="openFileModal()">
+              <span>📁</span> Open File Services
+            </button>
+            <button class="swift-ai-btn secondary" onclick="showAIProviderSelection()">
+              <span>⚙️</span> AI Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }, 500);
+}
+
+// Close modal when clicking outside
+fileModal.addEventListener('click', (e) => {
+  if(e.target === fileModal){
+    closeFileModal();
   }
 });
 </script>
