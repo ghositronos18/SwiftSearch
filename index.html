@@ -1,161 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Swift Search</title>
+<meta charset="UTF-8">
+<title>Swift Search</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#050b1a;
-      --accent:#00e5ff;
-      --text:#e8f1ff;
-      --card:#0b1530;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;height:100vh;font-family:'Orbitron',sans-serif;
-      background:radial-gradient(circle at top,#0b1b3a,#050b1a 70%);
-      color:var(--text);display:flex;justify-content:center;align-items:center;
-    }
-    .container{width:100%;max-width:760px;padding:20px;text-align:center;}
-    h1{font-size:3rem;margin-bottom:10px;}
-    .subtitle{opacity:.7;margin-bottom:40px;}
-    .search-box{
-      background:var(--card);border-radius:40px;padding:12px 20px;
-      display:flex;align-items:center;gap:12px;
-      box-shadow:0 0 30px rgba(0,229,255,.25);
-    }
-    .search-box input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:1.1rem;}
-    .btn{background:none;border:none;color:var(--accent);font-size:1.3rem;cursor:pointer;}
-    .tabs{display:flex;justify-content:center;gap:25px;margin-top:25px;opacity:.85;}
-    .tabs span{cursor:pointer;}
-    .ai-panel{
-      margin-top:30px;background:rgba(0,229,255,.08);
-      border:1px solid rgba(0,229,255,.3);border-radius:18px;
-      padding:20px;display:none;text-align:left;
-    }
-    iframe{margin-top:25px;width:100%;height:260px;border:none;border-radius:18px;display:none;}
-    footer{margin-top:40px;font-size:.7rem;opacity:.5;}
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont;
+  background:#0b0e14;
+  color:#e8eaed;
+}
+.container{
+  max-width:700px;
+  margin:14vh auto;
+  text-align:center;
+}
+.logo{
+  font-size:2.4rem;
+  font-weight:600;
+  margin-bottom:22px;
+}
+.search{
+  display:flex;
+  gap:10px;
+}
+input{
+  flex:1;
+  padding:14px 16px;
+  font-size:1rem;
+  border-radius:24px;
+  border:none;
+  outline:none;
+  background:#1f2937;
+  color:white;
+}
+button{
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:50%;
+  width:46px;
+  cursor:pointer;
+}
+.results{
+  margin-top:18px;
+  text-align:left;
+}
+.card{
+  background:#111827;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.note{
+  font-size:.8rem;
+  color:#9ca3af;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>Swift Search</h1>
-  <div class="subtitle">Search. Speak. Swift.</div>
+  <div class="logo">Swift Search</div>
 
-  <div class="search-box">
-    <input id="query" placeholder="Search or say a command..." />
-    <button class="btn" onclick="voiceSearch()">🎤</button>
-    <button class="btn" onclick="handleSearch()">🔍</button>
+  <div class="search">
+    <input id="q" placeholder="Search, say a command, or ask something">
+    <button id="mic">🎤</button>
   </div>
 
-  <div class="tabs">
-    <span onclick="setTab('all')" id="tab-all">All</span>
-    <span onclick="setTab('images')" id="tab-images">Images</span>
-    <span onclick="setTab('videos')" id="tab-videos">Videos</span>
-    <span onclick="setTab('files')" id="tab-files">Files</span>
-  </div>
-
-  <div class="ai-panel" id="aiPanel"></div>
-
-  <div id="keyModal" style="display:none;margin-top:20px;background:rgba(0,0,0,.6);padding:20px;border-radius:14px;">
-    <p style="font-size:.85rem">Enter your Gemini API key (stored locally)</p>
-    <input id="apiKeyInput" placeholder="AIza..." style="width:100%;padding:10px;border-radius:10px;border:none;" />
-    <button class="btn" onclick="saveKey()">Save Key</button>
-  </div>
-
-  <iframe id="player"></iframe>
-  
+  <div class="results" id="results"></div>
 </div>
 
 <script>
-let tab='all';
-let micActive=false;
+const input = document.getElementById("q");
+const results = document.getElementById("results");
+const micBtn = document.getElementById("mic");
 
-function setTab(t){
-  tab=t;
-  document.querySelectorAll('.tabs span').forEach(s=>s.style.textDecoration='none');
-  document.getElementById(`tab-${t}`).style.textDecoration='underline';
+let listening = false;
+
+/* ---------- VOICE (SIRI-LIKE) ---------- */
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognizer = SpeechRecognition ? new SpeechRecognition() : null;
+
+if (recognizer) {
+  recognizer.lang = "en-US";
+  recognizer.onresult = e => {
+    listening = false;
+    const text = e.results[0][0].transcript;
+    input.value = text;
+    handle(text);
+  };
+  recognizer.onend = () => listening = false;
 }
 
-function speak(text){ if(micActive) return; speechSynthesis.speak(new SpeechSynthesisUtterance(text)); }
-
-async function geminiAssist(query){
-  const key=localStorage.getItem('GEMINI_KEY');
-  const panel=document.getElementById('aiPanel');
-  panel.style.display='block';
-  panel.innerHTML='🤖 Thinking with Gemini...';
-
-  if(!key){ document.getElementById('keyModal').style.display='block'; return; }
-
-  try{
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${key}`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({contents:[{parts:[{text:query}]}]})
-    });
-    const data=await res.json();
-    const answer=data.candidates?.[0]?.content?.parts?.[0]?.text||'No AI response';
-    panel.innerHTML=`<b>🤖 Gemini AI</b><br><br>${answer}`;
-    speak(answer);
-  }catch(e){ panel.innerHTML='⚠️ Gemini request failed'; }
+function speak(text){
+  if (listening) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  speechSynthesis.speak(u);
 }
 
-function handleSearch(){
-  const q=document.getElementById('query').value.trim();
-  if(!q) return;
+/* ---------- SERVICE ROUTERS ---------- */
+function openGoogle(q){
+  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,"_blank");
+}
+function openYouTube(q){
+  window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,"_blank");
+}
+function openSpotify(q){
+  window.open(`https://open.spotify.com/search/${encodeURIComponent(q)}`,"_blank");
+}
+function openMail(){
+  window.open("https://mail.google.com","_blank");
+}
 
-  const text=q.toLowerCase();
-  const player=document.getElementById('player');
+/* ---------- INTENT ENGINE (CORE AI) ---------- */
+function handle(query){
+  const q = query.toLowerCase().trim();
+  results.innerHTML = "";
 
-  // Voice assistant style actions
-  if(text.includes('play')||text.includes('music')||text.includes('şarkı')){
-    player.style.display='block';
-    player.src=`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(q)}&autoplay=1`;
-    geminiAssist(`Explain the song or artist: ${q}`);
+  /* YouTube */
+  if (q.startsWith("play") || q.includes("youtube")) {
+    openYouTube(query);
+    speak("Opening YouTube");
     return;
   }
 
-  if(text.startsWith('open ')){
-    const site=text.replace('open ','').replace(/\s/g,'');
-    window.open(`https://${site}.com`,'_blank');
-    geminiAssist(`What is ${site}?`);
+  /* Spotify */
+  if (q.includes("spotify") || q.startsWith("play song")) {
+    openSpotify(query.replace("play",""));
+    speak("Opening Spotify");
     return;
   }
 
-  // Always show Gemini assistant
-  geminiAssist(q);
+  /* Email */
+  if (q.includes("email") || q.includes("gmail")) {
+    openMail();
+    speak("Opening your email");
+    return;
+  }
 
-  // Google search tabs
-  if(tab==='images'){ window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`,'_blank'); return; }
-  if(tab==='videos'){ window.open(`https://www.google.com/search?tbm=vid&q=${encodeURIComponent(q)}`,'_blank'); return; }
-  if(tab==='files'){ window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}+filetype:pdf`,'_blank'); return; }
+  /* Open site */
+  if (q.startsWith("open ")) {
+    const site = q.replace("open ","").replace(" ","");
+    window.open(`https://${site}.com`,"_blank");
+    speak(`Opening ${site}`);
+    return;
+  }
 
-  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,'_blank');
+  /* AI answer placeholder */
+  results.innerHTML = `
+    <div class="card">
+      <b>AI Assistant</b>
+      <p>I searched Google for this. You can refine or open links.</p>
+      <div class="note">If a link is needed, it will open in a new tab.</div>
+    </div>
+  `;
+
+  openGoogle(query);
 }
 
-function saveKey(){
-  const key=document.getElementById('apiKeyInput').value.trim();
-  if(key){ localStorage.setItem('GEMINI_KEY',key); document.getElementById('keyModal').style.display='none'; }
-}
+/* ---------- EVENTS ---------- */
+input.addEventListener("keydown",e=>{
+  if (e.key==="Enter") handle(input.value);
 
-function voiceSearch(){
-  micActive=true;
-  const rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
-  rec.start();
-  rec.onresult=e=>{ micActive=false; document.getElementById('query').value=e.results[0][0].transcript; handleSearch(); };
-  rec.onend=()=>micActive=false;
-}
+  if (e.key==="/") {
+    e.preventDefault();
+    input.focus();
+  }
 
-const searchInput=document.getElementById('query');
-document.addEventListener('keydown',e=>{
-  if(((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='l')||e.key==='/'){e.preventDefault();searchInput.focus();}
-  if(e.key==='Enter'&&document.activeElement===searchInput)handleSearch();
-  if(e.key==='Escape'){searchInput.value='';searchInput.blur();}
+  if ((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="l"){
+    e.preventDefault();
+    input.focus();
+  }
+
+  if (e.key==="Escape"){
+    input.value="";
+    input.blur();
+  }
 });
+
+micBtn.onclick = () => {
+  if (!recognizer) {
+    alert("Voice not supported");
+    return;
+  }
+  listening = true;
+  recognizer.start();
+};
 </script>
 
 </body>
