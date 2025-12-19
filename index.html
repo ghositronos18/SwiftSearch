@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+
 <title>Swift Search</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,14 +11,14 @@ body{
   color:#e8eaed;
 }
 .container{
-  max-width:700px;
+  max-width:760px;
   margin:14vh auto;
   text-align:center;
 }
 .logo{
-  font-size:2.4rem;
+  font-size:2.6rem;
   font-weight:600;
-  margin-bottom:22px;
+  margin-bottom:26px;
 }
 .search{
   display:flex;
@@ -28,7 +26,7 @@ body{
 }
 input{
   flex:1;
-  padding:14px 16px;
+  padding:14px 18px;
   font-size:1rem;
   border-radius:24px;
   border:none;
@@ -37,26 +35,37 @@ input{
   color:white;
 }
 button{
+  width:46px;
+  border-radius:50%;
   border:none;
   background:#2563eb;
   color:white;
-  border-radius:50%;
-  width:46px;
   cursor:pointer;
+  font-size:1.1rem;
 }
 .results{
-  margin-top:18px;
+  margin-top:22px;
   text-align:left;
 }
 .card{
   background:#111827;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:12px;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
 }
 .note{
   font-size:.8rem;
   color:#9ca3af;
+}
+.keybox{
+  background:#111827;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+}
+.keybox input{
+  width:100%;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -67,7 +76,7 @@ button{
   <div class="logo">Swift Search</div>
 
   <div class="search">
-    <input id="q" placeholder="Search, say a command, or ask something">
+    <input id="q" placeholder="Search, ask AI, or play music">
     <button id="mic">🎤</button>
   </div>
 
@@ -77,122 +86,145 @@ button{
 <script>
 const input = document.getElementById("q");
 const results = document.getElementById("results");
-const micBtn = document.getElementById("mic");
 
-let listening = false;
 
-/* ---------- VOICE (SIRI-LIKE) ---------- */
-const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
+let GEMINI_KEY = localStorage.getItem("GEMINI_KEY");
 
-const recognizer = SpeechRecognition ? new SpeechRecognition() : null;
-
-if (recognizer) {
-  recognizer.lang = "en-US";
-  recognizer.onresult = e => {
-    listening = false;
-    const text = e.results[0][0].transcript;
-    input.value = text;
-    handle(text);
-  };
-  recognizer.onend = () => listening = false;
+function showKeyInput(){
+  results.innerHTML = `
+    <div class="keybox">
+      <b>Enter Gemini API Key</b>
+      <p class="note">Stored locally in your browser</p>
+      <input id="keyInput" placeholder="AIza..." />
+      <button style="margin-top:10px" onclick="saveKey()">Save</button>
+    </div>
+  `;
 }
 
-function speak(text){
-  if (listening) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US";
-  speechSynthesis.speak(u);
+function saveKey(){
+  const k = document.getElementById("keyInput").value.trim();
+  if(!k) return;
+  localStorage.setItem("GEMINI_KEY",k);
+  GEMINI_KEY = k;
+  results.innerHTML = "";
 }
 
-/* ---------- SERVICE ROUTERS ---------- */
+
 function openGoogle(q){
-  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`,"_blank");
+  window.open(
+    `https://www.google.com/search?q=${encodeURIComponent(q)}`,
+    "_blank"
+  );
 }
 function openYouTube(q){
-  window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,"_blank");
+  window.open(
+    `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,
+    "_blank"
+  );
+}
+function openYouTubeMusic(q){
+  window.open(
+    `https://music.youtube.com/search?q=${encodeURIComponent(q)}`,
+    "_blank"
+  );
 }
 function openSpotify(q){
-  window.open(`https://open.spotify.com/search/${encodeURIComponent(q)}`,"_blank");
+  window.open(
+    `https://open.spotify.com/search/${encodeURIComponent(q)}`,
+    "_blank"
+  );
 }
 function openMail(){
   window.open("https://mail.google.com","_blank");
 }
 
-/* ---------- INTENT ENGINE (CORE AI) ---------- */
-function handle(query){
+async function askGemini(prompt){
+  if(!GEMINI_KEY){
+    showKeyInput();
+    return null;
+  }
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_KEY}`,
+    {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({
+        contents:[{ parts:[{ text: prompt }] }]
+      })
+    }
+  );
+
+  const data = await res.json();
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+}
+
+
+async function handle(query){
   const q = query.toLowerCase().trim();
   results.innerHTML = "";
 
-  /* YouTube */
-  if (q.startsWith("play") || q.includes("youtube")) {
-    openYouTube(query);
-    speak("Opening YouTube");
-    return;
+  /* 🎵 MUSIC INTENT */
+  if (q.startsWith("play ")) {
+    const song = query.replace(/^play\s+/i,"");
+
+    if (q.includes("youtube music")) return openYouTubeMusic(song);
+    if (q.includes("youtube")) return openYouTube(song);
+    if (q.includes("spotify")) return openSpotify(song);
+
+    return openSpotify(song);
   }
 
-  /* Spotify */
-  if (q.includes("spotify") || q.startsWith("play song")) {
-    openSpotify(query.replace("play",""));
-    speak("Opening Spotify");
-    return;
-  }
+  /* DIRECT SERVICES */
+  if (q.includes("youtube")) return openYouTube(query);
+  if (q.includes("spotify")) return openSpotify(query);
+  if (q.includes("gmail") || q.includes("email")) return openMail();
 
-  /* Email */
-  if (q.includes("email") || q.includes("gmail")) {
-    openMail();
-    speak("Opening your email");
-    return;
-  }
-
-  /* Open site */
   if (q.startsWith("open ")) {
-    const site = q.replace("open ","").replace(" ","");
+    const site = q.replace("open ","").replace(/\s+/g,"");
     window.open(`https://${site}.com`,"_blank");
-    speak(`Opening ${site}`);
     return;
   }
 
-  /* AI answer placeholder */
+  /* AI + WEB FUSION */
   results.innerHTML = `
     <div class="card">
-      <b>AI Assistant</b>
-      <p>I searched Google for this. You can refine or open links.</p>
-      <div class="note">If a link is needed, it will open in a new tab.</div>
+      <b>AI Overview</b>
+      <p class="note">Thinking…</p>
+    </div>
+  `;
+
+  const aiAnswer = await askGemini(query);
+
+  results.innerHTML = `
+    <div class="card">
+      <b>AI Overview</b>
+      <p>${aiAnswer || "No AI response available."}</p>
+      <div class="note">Web results opened in new tab</div>
     </div>
   `;
 
   openGoogle(query);
 }
 
-/* ---------- EVENTS ---------- */
 input.addEventListener("keydown",e=>{
-  if (e.key==="Enter") handle(input.value);
+  if (e.key === "Enter") handle(input.value);
 
-  if (e.key==="/") {
+  if (e.key === "/") {
     e.preventDefault();
     input.focus();
   }
 
-  if ((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="l"){
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
     e.preventDefault();
     input.focus();
   }
 
-  if (e.key==="Escape"){
-    input.value="";
+  if (e.key === "Escape") {
+    input.value = "";
     input.blur();
   }
 });
-
-micBtn.onclick = () => {
-  if (!recognizer) {
-    alert("Voice not supported");
-    return;
-  }
-  listening = true;
-  recognizer.start();
-};
 </script>
 
 </body>
