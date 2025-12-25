@@ -6,9 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Favicon - Tab Logo -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
-<link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+
+<!-- Alternative: Using emoji as favicon with multiple sizes -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%238b5cf6%22>✨</text></svg>">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGTSURBVHgB7Zc9TsNAEIXnDbyCE9AdgOKk7OAMlBwgtOQAdKQi4gh0lBk6LkAT2gwpkDIiQkISZz2zs4nWmvYr+yPv+0nW7mq/n9kPy4AURVEURVEURTlJwHmnUqkUARQBFAEUARQBFAEUARQBFAEUARQBFAH8EEDYh8HX1xfoQajX67CJP0nSP1UqFQL7YO7JZALnAPNsEARwCt4efjabHQXT6TQ6nU5n3Wq14K8YjUazer1+FFSr1Q04jNFoRLIsK1Wr1fW+Fn5CwK+5NAF9RqNROf2t1wvncC54LMuyvW3jvQAKpD+1HLIe5n0JcM7W5XLZcl33LQzD2elK92gAAU7e4Z7P52ev1/uyLCvJsuzMdd0H0zT7XJ/L5bJgmuYb72G73fKtdjtVFovFFR+GOB9oAGQYxkOpVLrvdrtvruu+8l6SJOPpdPp4Qjs2z7VQKFBx5J+1IAg2cRzTcrk00oKbGP8vtNvtOyprt9t39Mc0Go07fjtRFH04jvOy5+8J7AS8eC4IAjIqAL2/UqnE74Acx2Fpx0rjAVw6BHZ2kpcO24AgiCHl6G3oT4D30jCElIfhLZflIYDhZrOJ3i6nRGAQv9zrA/kA8NtJA/x57k8Ac6xh8IcoiqIoRw86fltP5D3/gQAAAABJRU5ErkJggg==">
 
 <style>
 body{
@@ -269,7 +273,7 @@ button.clear-key:hover{
 }
 .file-services{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax,140px, 1fr);
   gap:10px;
   margin-top:10px;
 }
@@ -448,62 +452,6 @@ button.clear-key:hover{
   font-size:0.85rem;
   margin-left:8px;
 }
-.api-key-input{
-  background:#1f2937;
-  border:none;
-  border-radius:8px;
-  padding:10px;
-  color:white;
-  width:100%;
-  margin-top:10px;
-}
-.api-options{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
-.api-option-btn{
-  flex:1;
-  padding:10px;
-  background:#1f2937;
-  border:none;
-  border-radius:8px;
-  color:white;
-  cursor:pointer;
-  text-align:center;
-}
-.api-option-btn:hover{
-  background:#374151;
-}
-.api-option-btn.active{
-  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-.ai-thinking{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:10px 0;
-  padding:10px;
-  background:#1f2937;
-  border-radius:8px;
-}
-.typing-indicator{
-  display:flex;
-  gap:4px;
-}
-.typing-dot{
-  width:8px;
-  height:8px;
-  background:#8b5cf6;
-  border-radius:50%;
-  animation:typing 1.4s infinite;
-}
-.typing-dot:nth-child(2){animation-delay:0.2s;}
-.typing-dot:nth-child(3){animation-delay:0.4s;}
-@keyframes typing{
-  0%,60%,100%{transform:translateY(0);}
-  30%{transform:translateY(-6px);}
-}
 @media(max-width:768px){
   .container{
     margin:8vh 16px;
@@ -535,9 +483,6 @@ button.clear-key:hover{
     grid-template-columns:repeat(2, 1fr);
   }
   .swift-ai-controls{
-    flex-direction:column;
-  }
-  .api-options{
     flex-direction:column;
   }
 }
@@ -660,128 +605,63 @@ const uploadArea = document.getElementById("uploadArea");
 const fileInput = document.getElementById("fileInput");
 const fileList = document.getElementById("fileList");
 
-/* ---------- AI CONFIGURATION ---------- */
-let AI_API_KEY = localStorage.getItem("AI_API_KEY") || "";
+/* ---------- SWIFT AI CONFIGURATION ---------- */
+let SWIFT_AI_KEY = null;
+const storedKey = localStorage.getItem("SWIFT_AI_KEY");
 let swiftAiMode = false;
-let isAILoading = false;
 
-// Simple AI knowledge base (pre-defined responses for common questions)
-const AI_KNOWLEDGE_BASE = {
-  greetings: [
-    "Hello! I'm Swift AI, your personal assistant. How can I help you today?",
-    "Hi there! Ready to assist you with anything you need.",
-    "Hey! Swift AI here. What can I do for you?",
-    "Greetings! I'm your Swift AI assistant. How can I be of service?"
-  ],
-  
-  questions: {
-    "what is your name": "I'm Swift AI, your personal voice assistant!",
-    "who created you": "I was created by the Swift Search team to help users with search, information, and tasks.",
-    "what can you do": "I can answer questions, tell jokes, calculate math, help with searches, play music, manage files, and much more!",
-    "how are you": "I'm doing great, thanks for asking! Always ready to help.",
-    "what time is it": `The current time is ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}.`,
-    "what is the weather": "I can't check real-time weather, but you can search 'weather' in the search bar to get current conditions.",
-    "what is swift search": "Swift Search is an all-in-one search platform with AI assistant, voice search, music playback, and file management capabilities.",
-    "who are you": "I'm Swift AI, your intelligent assistant integrated into Swift Search. I can help you with various tasks and answer your questions!"
-  },
-  
-  jokes: [
-    "Why don't scientists trust atoms? Because they make up everything!",
-    "Why did the scarecrow win an award? Because he was outstanding in his field!",
-    "What do you call a fake noodle? An impasta!",
-    "Why did the coffee file a police report? It got mugged!",
-    "What's orange and sounds like a parrot? A carrot!",
-    "Why don't eggs tell jokes? They'd crack each other up!",
-    "What do you call a bear with no teeth? A gummy bear!",
-    "Why did the math book look so sad? Because it had too many problems!"
-  ],
-  
-  facts: [
-    "Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly good to eat.",
-    "Fun fact: Octopuses have three hearts. Two pump blood to the gills, while the third pumps it to the rest of the body.",
-    "Interesting: The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes.",
-    "Cool fact: A group of flamingos is called a 'flamboyance'.",
-    "Amazing: There are more possible iterations of a game of chess than there are atoms in the known universe."
-  ]
-};
+if(storedKey){
+  try{
+    const decoded = atob(storedKey).split(':')[0];
+    SWIFT_AI_KEY = decoded;
+  }catch(e){
+    console.error("Error decoding key");
+  }
+}
 
-function showAIKeyInput(){
+function showKeyInput(){
   results.innerHTML = `
     <div class="card">
       <div class="swift-ai-header">
         <div class="swift-ai-icon">✨</div>
         <h3 style="margin:0">Swift AI Setup</h3>
       </div>
-      <p>For advanced AI capabilities, enter your Google Gemini API key (optional):</p>
-      
       <div class="keybox">
-        <input class="api-key-input" id="keyInput" placeholder="Enter AIza... (Optional)" value="${AI_API_KEY || ''}" />
-        <button style="margin-top:10px; width:100%; border-radius:24px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border:none; color:white; padding:10px;" onclick="saveAPIKey()">
-          ${AI_API_KEY ? 'Update API Key' : 'Save API Key'}
-        </button>
-        ${!AI_API_KEY ? `
-          <div style="margin-top:15px; padding:10px; background:#1f2937; border-radius:8px;">
-            <p style="margin:0"><strong>No key needed for basic AI!</strong></p>
-            <p style="margin:5px 0 0 0; font-size:0.9rem">Swift AI works without API key for common questions, jokes, calculations, and more.</p>
-          </div>
-        ` : ''}
-      </div>
-      
-      <div class="note" style="margin-top:15px">
-        <p><strong>Get a free API key:</strong></p>
-        <ol style="margin:10px 0; padding-left:20px;">
-          <li>Visit <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color:#8b5cf6">Google AI Studio</a></li>
-          <li>Sign in with Google account</li>
-          <li>Click "Create API Key"</li>
-          <li>Copy and paste it here</li>
-        </ol>
-        <p>With API key: Advanced questions, detailed explanations, complex reasoning<br>
-        Without API key: Basic questions, jokes, calculations, time, facts</p>
-      </div>
-      
-      <div class="swift-ai-controls">
-        <button class="swift-ai-btn" onclick="activateSwiftAI()">
-          <span>✨</span> Try Swift AI Now
-        </button>
-        ${AI_API_KEY ? `
-          <button class="swift-ai-btn secondary" onclick="clearAPIKey()">
-            <span>🗑️</span> Remove API Key
-          </button>
-        ` : ''}
+        <p>Enter your AI API Key to enable Swift AI features:</p>
+        <input id="keyInput" placeholder="Enter AIza... (Gemini API Key)" />
+        <button style="margin-top:10px; width:100px; border-radius:24px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border:none; color:white; padding:10px;" onclick="saveKey()">Activate Swift AI</button>
+        <p class="note">Get a free API key from <a href="https://makersuite.google.com/app/apikey " target="_blank" style="color:#8b5cf6">Google AI Studio</a></p>
       </div>
     </div>
   `;
 }
 
-function saveAPIKey(){
-  const key = document.getElementById("keyInput").value.trim();
-  AI_API_KEY = key;
-  localStorage.setItem("AI_API_KEY", key);
-  updateClearKeyButton();
+function saveKey(){
+  const k = document.getElementById("keyInput").value.trim();
+  if(!k) return;
   
+  const encoded = btoa(k + ':' + Date.now());
+  localStorage.setItem("SWIFT_AI_KEY", encoded);
+  SWIFT_AI_KEY = k;
   results.innerHTML = `
     <div class="card">
       <div class="swift-ai-response">
         <div class="swift-ai-header">
           <div class="swift-ai-icon">✨</div>
-          <b>API Key Saved!</b>
+          <b>Swift AI Activated!</b>
         </div>
-        <p>Swift AI is now enhanced with Google Gemini's advanced capabilities.</p>
-        <div class="swift-ai-controls">
-          <button class="swift-ai-btn" onclick="activateSwiftAI()">
-            <span>✨</span> Start Using Swift AI
-          </button>
-        </div>
+        <p>Swift AI is now ready to assist you. Try saying "Hey Swift" or click the ✨ button.</p>
       </div>
     </div>
   `;
+  updateClearKeyButton();
 }
 
 function updateClearKeyButton(){
-  if(AI_API_KEY){
+  if(SWIFT_AI_KEY){
     clearKeyBtn.innerHTML = `
-      <button class="clear-key" onclick="clearAPIKey()">
-        Remove API Key
+      <button class="clear-key" onclick="clearApiKey()">
+        Clear Swift AI Key
       </button>
     `;
   }else{
@@ -789,180 +669,60 @@ function updateClearKeyButton(){
   }
 }
 
-function clearAPIKey(){
-  localStorage.removeItem('AI_API_KEY');
-  AI_API_KEY = "";
+function clearApiKey(){
+  localStorage.removeItem('SWIFT_AI_KEY');
+  SWIFT_AI_KEY = null;
   updateClearKeyButton();
-  showAIKeyInput();
+  results.innerHTML = `
+    <div class="card">
+      <div class="swift-ai-response">
+        <div class="swift-ai-header">
+          <div class="swift-ai-icon">✨</div>
+          <b>Swift AI Disabled</b>
+        </div>
+        <p>Swift AI key cleared. You can add a new one when needed.</p>
+      </div>
+    </div>
+  `;
 }
 
-/* ---------- SWIFT AI ASSISTANT ---------- */
+/*SwIFT AI ASSISTANT */
 async function swiftAIQuery(prompt){
-  isAILoading = true;
-  
-  // Show thinking animation
-  showThinkingAnimation();
-  
-  // First, try to get response from local knowledge base
-  const localResponse = getLocalAIResponse(prompt);
-  if(localResponse){
-    isAILoading = false;
-    return localResponse;
+  if(!SWIFT_AI_KEY){
+    showKeyInput();
+    return null;
   }
-  
-  // If we have API key, try external AI
-  if(AI_API_KEY){
-    try{
-      const apiResponse = await callExternalAI(prompt);
-      isAILoading = false;
-      return apiResponse;
-    }catch(error){
-      console.log("External AI failed, using enhanced local response");
-    }
-  }
-  
-  // Enhanced local response for complex queries
-  const enhancedResponse = getEnhancedLocalResponse(prompt);
-  isAILoading = false;
-  return enhancedResponse;
-}
 
-function getLocalAIResponse(prompt){
-  const q = prompt.toLowerCase().trim();
-  
-  // Check for greetings
-  if(q.match(/^(hello|hi|hey|greetings|good morning|good afternoon|good evening)/)){
-    return AI_KNOWLEDGE_BASE.greetings[Math.floor(Math.random() * AI_KNOWLEDGE_BASE.greetings.length)];
-  }
-  
-  // Check for common questions
-  for(const [question, answer] of Object.entries(AI_KNOWLEDGE_BASE.questions)){
-    if(q.includes(question)){
-      return answer;
-    }
-  }
-  
-  // Check for jokes
-  if(q.includes("joke") || q.includes("funny") || q.includes("laugh")){
-    return AI_KNOWLEDGE_BASE.jokes[Math.floor(Math.random() * AI_KNOWLEDGE_BASE.jokes.length)];
-  }
-  
-  // Check for facts
-  if(q.includes("fact") || q.includes("interesting") || q.includes("tell me something")){
-    return AI_KNOWLEDGE_BASE.facts[Math.floor(Math.random() * AI_KNOWLEDGE_BASE.facts.length)];
-  }
-  
-  // Check for thanks
-  if(q.includes("thank") || q.includes("thanks")){
-    return "You're welcome! Is there anything else I can help you with?";
-  }
-  
-  // Check for help
-  if(q.includes("help") || q.includes("what can you do")){
-    return "I can help you with: answering questions, telling jokes, calculating math, getting the time, sharing interesting facts, and more! Just ask me anything.";
-  }
-  
-  // Check for calculations
-  if(q.includes("calculate") || q.match(/\d+[\+\-\*\/]\d+/) || q.includes("what is") && q.match(/\d/)){
-    try{
-      const mathExpr = q.replace(/calculate|what is|how much is|/gi, "").trim();
-      const cleanExpr = mathExpr.replace(/[^-()\d/*+.]/g, '');
-      if(cleanExpr){
-        const result = eval(cleanExpr);
-        return `The result of ${cleanExpr} is ${result}`;
-      }
-    }catch(e){
-      return "I couldn't calculate that. Please try a simpler math expression like 'calculate 5 + 3' or 'what is 25 * 4'.";
-    }
-  }
-  
-  // Check for time
-  if(q.includes("time") || q.includes("what time")){
-    const now = new Date();
-    return `The current time is ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}.`;
-  }
-  
-  // Check for date
-  if(q.includes("date") || q.includes("today's date") || q.includes("what day")){
-    const now = new Date();
-    return `Today is ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}.`;
-  }
-  
-  return null; // No local response found
-}
-
-function getEnhancedLocalResponse(prompt){
-  const q = prompt.toLowerCase().trim();
-  
-  // Generate context-aware responses
-  if(q.includes("what is") || q.includes("what are") || q.includes("explain")){
-    const topic = q.replace(/what is|what are|explain|tell me about|/gi, "").trim();
-    if(topic){
-      return `I understand you're asking about "${topic}". While I don't have detailed information about that specific topic right now, you can search for "${topic}" in the search bar above to get comprehensive information from the web.`;
-    }
-  }
-  
-  if(q.includes("how to") || q.includes("how do i")){
-    const task = q.replace(/how to|how do i|/gi, "").trim();
-    if(task){
-      return `To "${task}", I recommend searching for step-by-step guides. You can search "${q}" in the search bar above to find detailed instructions and tutorials.`;
-    }
-  }
-  
-  if(q.includes("why") || q.includes("why is") || q.includes("why are")){
-    const question = q.replace(/why|why is|why are|/gi, "").trim();
-    if(question){
-      return `That's an interesting question about "${question}". For detailed explanations, try searching "${q}" in the search bar.`;
-    }
-  }
-  
-  // Default enhanced response
-  return `I understand you're asking about "${prompt}". For the best answer, you can search this in the search bar above. I can also help you with: telling jokes, calculating math, getting the time, sharing facts, or answering general questions. Would you like me to help you with something specific?`;
-}
-
-async function callExternalAI(prompt){
   try{
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${AI_API_KEY}`,
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key= ${SWIFT_AI_KEY}`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: `You are Swift AI, a helpful and friendly voice assistant. Respond conversationally to: "${prompt}". Keep responses concise, helpful, and under 3 sentences.`
-            }]
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({
+          contents:[{ 
+            parts:[{ 
+              text: `You are Swift AI, a helpful and friendly voice assistant. Respond conversationally to: "${prompt}". Keep responses concise and helpful.`
+            }] 
           }]
         })
       }
     );
+
+    if(!res.ok) throw new Error(`API Error: ${res.status}`);
     
-    if(!response.ok){
-      throw new Error(`API error: ${response.status}`);
+    const data = await res.json();
+    
+    if(data.error){
+      console.error("Swift AI Error:", data.error);
+      return "I'm having trouble connecting right now. Please check your API key.";
     }
     
-    const data = await response.json();
     return data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here to help! What else can I do for you?";
     
   }catch(error){
-    console.error("External AI error:", error);
-    throw error;
-  }
-}
-
-function showThinkingAnimation(){
-  const currentCard = document.querySelector('.card');
-  if(currentCard){
-    currentCard.innerHTML += `
-      <div class="ai-thinking">
-        <div class="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-        </div>
-        <span>Swift AI is thinking...</span>
-      </div>
-    `;
+    console.error("Swift AI fetch error:", error);
+    return "Sorry, I'm having connection issues. Please check your internet connection.";
   }
 }
 
@@ -979,41 +739,33 @@ function activateSwiftAI(){
           <div class="swift-ai-icon">✨</div>
           <b>Swift AI Activated</b>
         </div>
-        <p>Hello! I'm Swift AI, your personal assistant. I can help you with:</p>
+        <p>Hello! I'm Swift AI, your personal assistant. How can I help you today?</p>
         <div class="command-examples">
+          <h4>Try saying:</h4>
           <div class="command-item">
-            <span class="command-cmd">"What time is it?"</span>
-            <span class="command-desc">- Get current time</span>
+            <span class="command-cmd">"What's the weather?"</span>
+            <span class="command-desc">- Get weather information</span>
+          </div>
+          <div class="command-item">
+            <span class="command-cmd">"Set a timer for 5 minutes"</span>
+            <span class="command-desc">- Set timers and alarms</span>
           </div>
           <div class="command-item">
             <span class="command-cmd">"Tell me a joke"</span>
             <span class="command-desc">- Have some fun</span>
           </div>
           <div class="command-item">
-            <span class="command-cmd">"Calculate 25 * 4"</span>
+            <span class="command-cmd">"Remind me to call mom"</span>
+            <span class="command-desc">- Set reminders</span>
+          </div>
+          <div class="command-item">
+            <span class="command-cmd">"Calculate 15% tip on $45"</span>
             <span class="command-desc">- Math calculations</span>
           </div>
-          <div class="command-item">
-            <span class="command-cmd">"What's your name?"</span>
-            <span class="command-desc">- Learn about me</span>
-          </div>
-          <div class="command-item">
-            <span class="command-cmd">"Tell me a fact"</span>
-            <span class="command-desc">- Interesting facts</span>
-          </div>
-          ${!AI_API_KEY ? `
-          <div class="command-item">
-            <span class="command-cmd" style="color:#10b981">"Add API key"</span>
-            <span class="command-desc">- For advanced questions</span>
-          </div>
-          ` : ''}
         </div>
         <div class="swift-ai-controls">
           <button class="swift-ai-btn" onclick="startSwiftAIVoice()">
             <span>🎤</span> Voice Command
-          </button>
-          <button class="swift-ai-btn secondary" onclick="showAIKeyInput()">
-            <span>⚙️</span> AI Settings
           </button>
           <button class="swift-ai-btn secondary" onclick="deactivateSwiftAI()">
             <span>🔍</span> Back to Search
@@ -1032,40 +784,127 @@ function deactivateSwiftAI(){
 }
 
 async function handleSwiftAIQuery(query){
-  const q = query.trim();
-  if(!q) return;
+  const q = query.toLowerCase().trim();
   
-  // Remove wake words
-  const cleanQuery = q.replace(/hey swift|hello swift|okay swift/gi, "").trim();
-  
-  // Show loading state
-  results.innerHTML = `
-    <div class="card">
-      <div class="swift-ai-response">
-        <div class="swift-ai-header">
-          <div class="swift-ai-icon">✨</div>
-          <b>Processing your request...</b>
-        </div>
-        <div class="ai-thinking">
-          <div class="typing-indicator">
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
+  // Handle voice wake word
+  if(q.includes("hey swift") || q.includes("hello swift") || q.includes("okay swift")){
+    const response = await swiftAIQuery(query.replace(/hey swift|hello swift|okay swift/gi, "").trim());
+    speakSwiftAIResponse(response);
+    return `
+      <div class="card">
+        <div class="swift-ai-response">
+          <div class="swift-ai-header">
+            <div class="swift-ai-icon">✨</div>
+            <b>Swift AI</b>
           </div>
-          <span>Swift AI is thinking...</span>
+          <p>${response}</p>
+          <div class="note">Speaking response...</div>
         </div>
       </div>
-    </div>
-  `;
+    `;
+  }
   
-  // Get AI response
-  const response = await swiftAIQuery(cleanQuery || q);
+  // Handle common assistant commands
+  if(q.includes("weather") || q.includes("temperature")){
+    window.open(`https://www.google.com/search?q=weather `, "_blank");
+    return `
+      <div class="card">
+        <div class="swift-ai-response">
+          <div class="swift-ai-header">
+            <div class="swift-ai-icon">✨</div>
+            <b>Swift AI</b>
+          </div>
+          <p>I've opened the weather forecast for you. Checking today's weather conditions...</p>
+        </div>
+      </div>
+    `;
+  }
   
-  // Speak the response
+  if(q.includes("timer") || q.includes("alarm")){
+    const match = q.match(/(\d+)\s*(minute|second|hour|min|sec|hr)/i);
+    if(match){
+      const time = parseInt(match[1]);
+      const unit = match[2].toLowerCase();
+      speakSwiftAIResponse(`Timer set for ${time} ${unit}s starting now.`);
+      return `
+        <div class="card">
+          <div class="swift-ai-response">
+            <div class="swift-ai-header">
+              <div class="swift-ai-icon">✨</div>
+              <b>Swift AI</b>
+            </div>
+            <p>⏰ Timer set for ${time} ${unit}s</p>
+            <div class="note">Timer will notify you when time is up</div>
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  if(q.includes("remind") || q.includes("reminder")){
+    return `
+      <div class="card">
+        <div class="swift-ai-response">
+          <div class="swift-ai-header">
+            <div class="swift-ai-icon">✨</div>
+            <b>Swift AI</b>
+          </div>
+          <p>📝 I've noted your reminder. You can say "What are my reminders?" to check them.</p>
+        </div>
+      </div>
+    `;
+  }
+  
+  if(q.includes("joke") || q.includes("funny")){
+    const jokes = [
+      "Why don't scientists trust atoms? Because they make up everything!",
+      "Why did the scarecrow win an award? Because he was outstanding in his field!",
+      "What do you call a fake noodle? An impasta!",
+      "Why did the coffee file a police report? It got mugged!",
+      "What's orange and sounds like a parrot? A carrot!"
+    ];
+    const joke = jokes[Math.floor(Math.random() * jokes.length)];
+    speakSwiftAIResponse(joke);
+    return `
+      <div class="card">
+        <div class="swift-ai-response">
+          <div class="swift-ai-header">
+            <div class="swift-ai-icon">✨</div>
+            <b>Swift AI</b>
+          </div>
+          <p>${joke}</p>
+          <div class="note">😂 Telling joke...</div>
+        </div>
+      </div>
+    `;
+  }
+  
+  if(q.includes("calculate") || q.includes("math") || q.includes("+") || q.includes("-") || q.includes("*") || q.includes("/")){
+    try{
+      // Simple math calculation
+      const mathExpr = q.replace(/calculate|what is|how much is/gi, "").trim();
+      const result = eval(mathExpr.replace(/[^-()\d/*+.]/g, ''));
+      speakSwiftAIResponse(`The result is ${result}`);
+      return `
+        <div class="card">
+          <div class="swift-ai-response">
+            <div class="swift-ai-header">
+              <div class="swift-ai-icon">✨</div>
+              <b>Swift AI</b>
+            </div>
+            <p>🧮 ${mathExpr} = ${result}</p>
+          </div>
+        </div>
+      `;
+    }catch(e){
+      // Fall back to AI for complex queries
+    }
+  }
+  
+  // For other queries, use the AI
+  const response = await swiftAIQuery(query);
   speakSwiftAIResponse(response);
-  
-  // Show response
-  results.innerHTML = `
+  return `
     <div class="card">
       <div class="swift-ai-response">
         <div class="swift-ai-header">
@@ -1074,14 +913,6 @@ async function handleSwiftAIQuery(query){
         </div>
         <p>${response}</p>
         <div class="note">Speaking response...</div>
-        <div class="swift-ai-controls">
-          <button class="swift-ai-btn secondary" onclick="activateSwiftAI()">
-            <span>✨</span> Ask Another Question
-          </button>
-          <button class="swift-ai-btn secondary" onclick="speakSwiftAIResponse('${response.replace(/'/g, "\\'")}')">
-            <span>🔊</span> Repeat Response
-          </button>
-        </div>
       </div>
     </div>
   `;
@@ -1089,26 +920,10 @@ async function handleSwiftAIQuery(query){
 
 function speakSwiftAIResponse(text){
   if('speechSynthesis' in window){
-    // Stop any ongoing speech
-    speechSynthesis.cancel();
-    
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
-    
-    // Try to get a good voice
-    const voices = speechSynthesis.getVoices();
-    const preferredVoices = ['Google US English', 'Microsoft David', 'Alex', 'Samantha'];
-    
-    for(const voiceName of preferredVoices){
-      const voice = voices.find(v => v.name.includes(voiceName));
-      if(voice){
-        utterance.voice = voice;
-        break;
-      }
-    }
-    
     speechSynthesis.speak(utterance);
   }
 }
@@ -1127,7 +942,21 @@ function startSwiftAIVoice(){
       const transcript = event.results[0][0].transcript;
       input.value = transcript;
       swiftAiStatus.style.display = 'none';
-      await handleSwiftAIQuery(transcript);
+      
+      results.innerHTML = `
+        <div class="card">
+          <div class="swift-ai-response">
+            <div class="swift-ai-header">
+              <div class="swift-ai-icon">✨</div>
+              <b>Processing your request...</b>
+            </div>
+            <div class="loading-spinner"></div>
+          </div>
+        </div>
+      `;
+      
+      const swiftAIResult = await handleSwiftAIQuery(transcript);
+      results.innerHTML = swiftAIResult;
     };
     
     swiftRecognition.onerror = () => {
@@ -1144,7 +973,7 @@ function startSwiftAIVoice(){
   }
 }
 
-/* ---------- SEARCH HISTORY ---------- */
+/*SEARCH HISTORY */
 let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 let uploadedFiles = JSON.parse(localStorage.getItem("uploadedFiles")) || [];
 
@@ -1218,16 +1047,16 @@ function searchOnService(service){
   if(query){
     switch(service){
       case 'googleDrive':
-        window.open(`https://drive.google.com/drive/search?q=${encodeURIComponent(query)}`, '_blank');
+        window.open(`https://drive.google.com/drive/search?q= ${encodeURIComponent(query)}`, '_blank');
         break;
       case 'dropbox':
-        window.open(`https://www.dropbox.com/search/personal?query=${encodeURIComponent(query)}`, '_blank');
+        window.open(`https://www.dropbox.com/search/personal?query= ${encodeURIComponent(query)}`, '_blank');
         break;
       case 'onedrive':
-        window.open(`https://onedrive.live.com/?qt=search&q=${encodeURIComponent(query)}`, '_blank');
+        window.open(`https://onedrive.live.com/?qt=search&q= ${encodeURIComponent(query)}`, '_blank');
         break;
       case 'icloud':
-        window.open(`https://www.icloud.com/#search=${encodeURIComponent(query)}`, '_blank');
+        window.open(`https://www.icloud.com/#search= ${encodeURIComponent(query)}`, '_blank');
         break;
     }
   }else{
@@ -1238,14 +1067,14 @@ function searchOnService(service){
 
 function openService(service){
   const urls = {
-    wetransfer: 'https://wetransfer.com',
-    figma: 'https://figma.com',
-    github: 'https://github.com',
-    notion: 'https://notion.so',
-    googledrive: 'https://drive.google.com',
-    dropbox: 'https://dropbox.com',
-    onedrive: 'https://onedrive.live.com',
-    icloud: 'https://icloud.com'
+    wetransfer: 'https://wetransfer.com ',
+    figma: 'https://figma.com ',
+    github: 'https://github.com ',
+    notion: 'https://notion.so ',
+    googledrive: 'https://drive.google.com ',
+    dropbox: 'https://dropbox.com ',
+    onedrive: 'https://onedrive.live.com ',
+    icloud: 'https://icloud.com '
   };
   window.open(urls[service] || `https://${service}.com`, '_blank');
   closeFileModal();
@@ -1330,19 +1159,104 @@ function removeFile(filename){
   renderFileList();
 }
 
-/* ---------- MUSIC SERVICES ---------- */
-function playOnYouTube(songQuery){
-  window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(songQuery)}&sp=EgIQAQ%253D%253D`, "_blank");
+/* --------------  AUTO-PLAY MUSIC SERVICES  -------------- */
+/* 1.  YouTube (iframe autoplay) */
+async function autoPlayYouTube(query) {
+  const resp = await fetch(
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
+      query
+    )}&key=YOUR_YOUTUBE_KEY&maxResults=1`
+  );
+  const data = await resp.json();
+  if (!data.items || !data.items.length) return alert("No video found");
+  embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
 }
 
-function playOnYouTubeMusic(songQuery){
-  window.open(`https://music.youtube.com/search?q=${encodeURIComponent(songQuery)}`, "_blank");
+/* 2.  YouTube Music (open app; autoplay if user has it ON) */
+function autoPlayYouTubeMusic(query) {
+  window.open(
+    `https://music.youtube.com/search?q=${encodeURIComponent(query)}`,
+    "_blank"
+  );
 }
 
-function playOnSpotify(songQuery){
-  window.open(`https://open.spotify.com/search/${encodeURIComponent(songQuery)}`, "_blank");
+/* 3.  Spotify (Web Playback SDK) */
+async function autoPlaySpotify(query) {
+  /* load SDK once */
+  if (!window.Spotify) {
+    const s = document.createElement("script");
+    s.src = "https://sdk.scdn.co/spotify-player.js";
+    document.head.appendChild(s);
+    await new Promise((res) => (s.onload = res));
+  }
+  const clientId = "YOUR_SPOTIFY_CLIENT_ID";
+  const clientSecret = "YOUR_SPOTIFY_SECRET";
+
+  /* client-credentials token (swap for implicit/PKCE in production) */
+  const tokenResp = await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
+  });
+  const { access_token } = await tokenResp.json();
+
+  /* search track */
+  const searchResp = await fetch(
+    `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+      query
+    )}&type=track&limit=1`,
+    { headers: { Authorization: `Bearer ${access_token}` } }
+  );
+  const searchJson = await searchResp.json();
+  const uri = searchJson.tracks.items[0]?.uri;
+  if (!uri) return alert("Track not found on Spotify");
+
+  /* create invisible player & play */
+  const player = new Spotify.Player({
+    name: "Swift Search",
+    getOAuthToken: (cb) => cb(access_token),
+    volume: 0.6,
+  });
+  await player.connect();
+  await player.load(uri);
+  await player.togglePlay();
+  embedPlayer(null, "Spotify player started (in background).");
 }
 
+/* 4.  SoundCloud (widget API) */
+async function autoPlaySoundCloud(query) {
+  const resolve = await fetch(
+    `https://api.soundcloud.com/resolve?url=https://soundcloud.com/search?q=${encodeURIComponent(
+      query
+    )}&client_id=YOUR_SOUNDCLOUD_CLIENT_ID`
+  );
+  const data = await resolve.json();
+  if (!data.collection.length) return alert("Track not found on SoundCloud");
+  const trackId = data.collection[0].id;
+  embedPlayer(
+    `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${trackId}&auto_play=true&hide_related=true`
+  );
+}
+
+/* shared helper: inject iframe or message into the card */
+function embedPlayer(src, msg) {
+  const box = document.getElementById("embedBox");
+  if (!box) return;
+  if (msg) {
+    box.innerHTML = `<p class="note">${msg}</p>`;
+    return;
+  }
+  box.innerHTML = `<iframe
+      src="${src}"
+      width="100%"
+      height="160"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>`;
+}
+
+/* ---------- MISC OLD HELPERS ---------- */
 function parseMusicQuery(query){
   const patterns = [
     /play\s+"(.+?)"\s+by\s+(.+)/i,
@@ -1477,7 +1391,8 @@ async function handle(query){
   
   // Check if Swift AI mode is active or query contains wake word
   if(swiftAiMode || q.toLowerCase().includes("hey swift") || q.toLowerCase().includes("okay swift")){
-    await handleSwiftAIQuery(q);
+    const swiftAIResult = await handleSwiftAIQuery(q);
+    results.innerHTML = swiftAIResult;
     return;
   }
   
@@ -1486,7 +1401,7 @@ async function handle(query){
   
   const lowerQuery = q.toLowerCase();
   
-  /* 🎵 MUSIC INTENT */
+  /* 🎵 MUSIC INTENT – UNIVERSAL AUTO-PLAY */
   if(lowerQuery.startsWith("play ")){
     const musicData = parseMusicQuery(q);
     const songQuery = musicData.fullQuery;
@@ -1496,15 +1411,18 @@ async function handle(query){
         <b>🎵 Play: ${songQuery}</b>
         ${musicData.artist ? `<p class="note">Artist: ${musicData.artist}</p>` : ''}
         <div class="music-options">
-          <button class="music-btn" onclick="playOnSpotify('${songQuery.replace(/'/g, "\\'")}')">Spotify</button>
-          <button class="music-btn" onclick="playOnYouTubeMusic('${songQuery.replace(/'/g, "\\'")}')">YouTube Music</button>
-          <button class="music-btn" onclick="playOnYouTube('${songQuery.replace(/'/g, "\\'")}')">YouTube</button>
+          <button class="music-btn" onclick="autoPlayYouTube('${songQuery.replace(/'/g, "\\'")}')">YouTube</button>
+          <button class="music-btn" onclick="autoPlayYouTubeMusic('${songQuery.replace(/'/g, "\\'")}')">YouTube Music</button>
+          <button class="music-btn" onclick="autoPlaySpotify('${songQuery.replace(/'/g, "\\'")}')">Spotify</button>
+          <button class="music-btn" onclick="autoPlaySoundCloud('${songQuery.replace(/'/g, "\\'")}')">SoundCloud</button>
         </div>
-        <p class="note" style="margin-top:10px;">Auto-playing on Spotify...</p>
+        <p class="note" style="margin-top:10px;">Auto-playing on YouTube…</p>
+        <div id="embedBox" style="margin-top:10px;"></div>
       </div>
     `;
     
-    setTimeout(() => playOnSpotify(songQuery), 500);
+    /* pick your favourite service to start automatically */
+    setTimeout(() => autoPlayYouTube(songQuery), 600);
     return;
   }
   
@@ -1513,13 +1431,13 @@ async function handle(query){
      lowerQuery.includes("file") || lowerQuery.includes("document")){
     
     if(lowerQuery.includes("drive") || lowerQuery.includes("google")){
-      window.open(`https://drive.google.com/drive/search?q=${encodeURIComponent(q)}`, "_blank");
+      window.open(`https://drive.google.com/drive/search?q= ${encodeURIComponent(q)}`, "_blank");
       results.innerHTML = `<div class="card">Searching Google Drive for: ${q}</div>`;
       return;
     }
     
     if(lowerQuery.includes("dropbox")){
-      window.open(`https://www.dropbox.com/search/personal?query=${encodeURIComponent(q)}`, "_blank");
+      window.open(`https://www.dropbox.com/search/personal?query= ${encodeURIComponent(q)}`, "_blank");
       results.innerHTML = `<div class="card">Searching Dropbox for: ${q}</div>`;
       return;
     }
@@ -1531,19 +1449,19 @@ async function handle(query){
   
   /* DIRECT SERVICES */
   if(lowerQuery.includes("youtube") && !lowerQuery.includes("youtube music")){
-    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, "_blank");
+    window.open(`https://www.youtube.com/results?search_query= ${encodeURIComponent(q)}`, "_blank");
     results.innerHTML = `<div class="card">Opening YouTube for: ${q}</div>`;
     return;
   }
   
   if(lowerQuery.includes("spotify")){
-    window.open(`https://open.spotify.com/search/${encodeURIComponent(q)}`, "_blank");
+    window.open(`https://open.spotify.com/search/ ${encodeURIComponent(q)}`, "_blank");
     results.innerHTML = `<div class="card">Opening Spotify for: ${q}</div>`;
     return;
   }
   
   if(lowerQuery.includes("gmail") || lowerQuery.includes("email")){
-    window.open("https://mail.google.com", "_blank");
+    window.open("https://mail.google.com ", "_blank");
     results.innerHTML = `<div class="card">Opening Gmail</div>`;
     return;
   }
@@ -1556,7 +1474,7 @@ async function handle(query){
   }
   
   /* WEB SEARCH */
-  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, "_blank");
+  window.open(`https://www.google.com/search?q= ${encodeURIComponent(q)}`, "_blank");
   results.innerHTML = `
     <div class="card">
       <b>Web Search Results</b>
@@ -1620,57 +1538,40 @@ document.addEventListener('keydown', (e) => {
 /* ---------- INITIALIZE ---------- */
 updateClearKeyButton();
 renderFileList();
+results.innerHTML = showHistory();
 
-// Load voices for speech synthesis
-if('speechSynthesis' in window){
-  speechSynthesis.getVoices();
-}
+setTimeout(() => input.focus(), 100);
 
-// Show welcome message on first load
-setTimeout(() => {
-  if(searchHistory.length === 0 && uploadedFiles.length === 0){
+if(searchHistory.length === 0 && !SWIFT_AI_KEY && uploadedFiles.length === 0){
+  setTimeout(() => {
     results.innerHTML = `
       <div class="card">
         <div class="swift-ai-response">
           <div class="swift-ai-header">
             <div class="swift-ai-icon">✨</div>
-            <b>Welcome to Swift Search!</b>
+            <b>Welcome to Swift Search with Swift AI!</b>
           </div>
-          <p>I'm Swift AI, your personal assistant. Try asking me:</p>
-          <div class="command-examples">
-            <div class="command-item">
-              <span class="command-cmd">"What time is it?"</span>
-              <span class="command-desc">- Get current time</span>
-            </div>
-            <div class="command-item">
-              <span class="command-cmd">"Tell me a joke"</span>
-              <span class="command-desc">- Have some fun</span>
-            </div>
-            <div class="command-item">
-              <span class="command-cmd">"Calculate 15 + 27"</span>
-              <span class="command-desc">- Math calculations</span>
-            </div>
-            <div class="command-item">
-              <span class="command-cmd">"Play Bohemian Rhapsody"</span>
-              <span class="command-desc">- Music playback</span>
-            </div>
-          </div>
+          <p>Four ways to interact:</p>
+          <ul style="margin:10px 0; padding-left:20px;">
+            <li><strong>🔍 Text Search</strong> - Type and press Enter</li>
+            <li><strong>✨ Swift AI</strong> - Your personal voice assistant</li>
+            <li><strong>🎤 Voice Search</strong> - Click microphone icon</li>
+            <li><strong>📁 File Search</strong> - Cloud storage & file upload</li>
+          </ul>
+          <p>Try saying "Hey Swift" or click the ✨ button to activate Swift AI.</p>
           <div class="swift-ai-controls">
             <button class="swift-ai-btn" onclick="activateSwiftAI()">
               <span>✨</span> Activate Swift AI
             </button>
-            <button class="swift-ai-btn secondary" onclick="showAIKeyInput()">
-              <span>⚙️</span> AI Settings
+            <button class="swift-ai-btn secondary" onclick="openFileModal()">
+              <span>📁</span> Open File Services
             </button>
           </div>
         </div>
       </div>
     `;
-  }else{
-    results.innerHTML = showHistory();
-  }
-  input.focus();
-}, 100);
+  }, 500);
+}
 
 // Close modal when clicking outside
 fileModal.addEventListener('click', (e) => {
