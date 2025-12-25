@@ -1172,7 +1172,6 @@ async function autoPlayYouTube(query) {
   embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
 }
 
-/*  YouTube Music (open app; autoplay if user has it ON) */
 /* ----------  YouTube-Music “autoplay”  ---------- */
 function autoPlayYouTubeMusic(query) {
   /*Search for the official video on vanilla YouTube */
@@ -1247,7 +1246,7 @@ async function autoPlaySoundCloud(query) {
   const resolve = await fetch(
     `https://api.soundcloud.com/resolve?url=https://soundcloud.com/search?q=${encodeURIComponent(
       query
-    )}&client_id=YOUR_SOUNDCLOUD_CLIENT_ID`
+    )}&client_id=969458284`
   );
   const data = await resolve.json();
   if (!data.collection.length) return alert("Track not found on SoundCloud");
@@ -1602,5 +1601,6 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
