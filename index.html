@@ -1172,12 +1172,31 @@ async function autoPlayYouTube(query) {
   embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
 }
 
-/* 2.  YouTube Music (open app; autoplay if user has it ON) */
+/*  YouTube Music (open app; autoplay if user has it ON) */
+/* ----------  YouTube-Music “autoplay”  ---------- */
 function autoPlayYouTubeMusic(query) {
-  window.open(
-    `https://music.youtube.com/search?q=${encodeURIComponent(query)}`,
-    "_blank"
-  );
+  /*Search for the official video on vanilla YouTube */
+  fetch(
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
+      query
+    )}&key=AIzaSyDpdrqh32g1enFGoNq4m61IOEkJOEHKNQ0&maxResults=1`
+  )
+    .then((r) => r.json())
+    .then((d) => {
+      if (!d.items || !d.items.length) {
+        alert("Song not found");
+        return;
+      }
+      const id = d.items[0].id.videoId;
+
+      /*   Embed the vanilla video with autoplay + mute
+             (browsers allow muted autoplay universally)       */
+      embedPlayer(
+        `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0`,
+        "YouTube Music autoplay (muted) – unmute after it starts."
+      );
+    })
+    .catch((e) => console.error(e));
 }
 
 /* 3.  Spotify (Web Playback SDK) */
@@ -1583,4 +1602,5 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
