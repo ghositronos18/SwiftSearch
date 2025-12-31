@@ -1169,7 +1169,9 @@ async function autoPlayYouTube(query) {
   );
   const data = await resp.json();
   if (!data.items || !data.items.length) return alert("No video found");
-  embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
+
+  const videoId = data.items[0].id.videoId;
+  embedPlayer(`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`);
 }
 
 /* 2.  YouTube Music (open app; autoplay if user has it ON) */
@@ -1583,5 +1585,6 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
