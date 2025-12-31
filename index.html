@@ -1161,32 +1161,82 @@ function removeFile(filename){
 
 /* --------------  AUTO-PLAY MUSIC SERVICES  -------------- */
 /* 1.  YouTube (iframe autoplay) */
-function autoPlayYouTube(query) {
+async function autoPlayYouTube(query) {
   const resp = await fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
       query
-    )}&key=AIzaSyBODMS2y-6wJyExZNftuzkLNiCzzxpK2PI&maxResults=1`
+    )}&key=AIzaSyDpdrqh32g1enFGoNq4m61IOEkJOEHKNQ0&maxResults=1`
   );
   const data = await resp.json();
   if (!data.items || !data.items.length) return alert("No video found");
   embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
 }
 
-/* ----------  YouTube-Music “autoplay”  ---------- */
+/* 2.  YouTube Music (open app; autoplay if user has it ON) */
 function autoPlayYouTubeMusic(query) {
-  window.open(`https://music.youtube.com/search?q=${encodeURIComponent(query)}`, "_blank");
+  window.open(
+    `https://music.youtube.com/search?q=${encodeURIComponent(query)}`,
+    "_blank"
+  );
 }
 
-/* 3.  Spotify  */
+/* 3.  Spotify (Web Playback SDK) */
 async function autoPlaySpotify(query) {
-  window.open(`https://open.spotify.com/search/${encodeURIComponent(query)}`, "_blank");
+  /* load SDK once */
+  if (!window.Spotify) {
+    const s = document.createElement("script");
+    s.src = "https://sdk.scdn.co/spotify-player.js";
+    document.head.appendChild(s);
+    await new Promise((res) => (s.onload = res));
+  }
+  const clientId = "YOUR_SPOTIFY_CLIENT_ID";
+  const clientSecret = "YOUR_SPOTIFY_SECRET";
+
+  /* client-credentials token (swap for implicit/PKCE in production) */
+  const tokenResp = await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
+  });
+  const { access_token } = await tokenResp.json();
+
+  /* search track */
+  const searchResp = await fetch(
+    `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+      query
+    )}&type=track&limit=1`,
+    { headers: { Authorization: `Bearer ${access_token}` } }
+  );
+  const searchJson = await searchResp.json();
+  const uri = searchJson.tracks.items[0]?.uri;
+  if (!uri) return alert("Track not found on Spotify");
+
+  /* create invisible player & play */
+  const player = new Spotify.Player({
+    name: "Swift Search",
+    getOAuthToken: (cb) => cb(access_token),
+    volume: 0.6,
+  });
+  await player.connect();
+  await player.load(uri);
+  await player.togglePlay();
+  embedPlayer(null, "Spotify player started (in background).");
 }
 
-/* 4.  SoundCloud  */
+/* 4.  SoundCloud (widget API) */
 async function autoPlaySoundCloud(query) {
-   window.open(`https://soundcloud.com/search?q=${encodeURIComponent(query)}`, "_blank");
+  const resolve = await fetch(
+    `https://api.soundcloud.com/resolve?url=https://soundcloud.com/search?q=${encodeURIComponent(
+      query
+    )}&client_id=YOUR_SOUNDCLOUD_CLIENT_ID`
+  );
+  const data = await resolve.json();
+  if (!data.collection.length) return alert("Track not found on SoundCloud");
+  const trackId = data.collection[0].id;
+  embedPlayer(
+    `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${trackId}&auto_play=true&hide_related=true`
+  );
 }
- 
 
 /* shared helper: inject iframe or message into the card */
 function embedPlayer(src, msg) {
@@ -1199,7 +1249,7 @@ function embedPlayer(src, msg) {
   box.innerHTML = `<iframe
       src="${src}"
       width="100%"
-      height="300"
+      height="160"
       frameborder="0"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
@@ -1533,7 +1583,4 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
-
-
-
 
