@@ -1335,22 +1335,11 @@ if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
     voiceBtn.classList.add('listening');
     voiceStatus.style.display = 'flex';
   };
-  recognition.onresult = (event) => {
-  const transcript = event.results[0][0].transcript;
-  input.value = transcript;
-  voiceStatus.style.display = 'none';
-
-  /* MUSIC-INTENT FILTER  */
-  const stayHereRegex = /\b(play|music|song|album|artist)\b/i;
-  if (stayHereRegex.test(transcript)) {
-    handle(transcript);
-    return;                  
-  }
-
-  handle(transcript);        // normal search → new tab
-};
   
- 
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    input.value = transcript;
+    handle(transcript);
   };
   recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
@@ -1360,19 +1349,6 @@ if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
     handle(transcript);
     return;                       
   }
-    recognition.onresult = (event) => {
-  const transcript = event.results[0][0].transcript;
-  if (/\bplay\b/i.test(transcript)) {
-    input.value = transcript;
-    voiceStatus.style.display = 'none';
-    handle(transcript);
-    return;                       
-  }
-
-  /* 2.  otherwise  →  normal search in new tab */
-  input.value = transcript;
-  handle(transcript);
-};
 
   
   input.value = transcript;
@@ -1638,9 +1614,6 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
-
-
-
 
 
 
