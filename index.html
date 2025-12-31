@@ -1164,8 +1164,7 @@ function removeFile(filename){
 async function autoPlayYouTube(query) {
   const resp = await fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
-      query
-    )}&key=AIzaSyDRjnID7VBzMN-DAC0MgjXk8qGvynytFzE&maxResults=1`
+      query)}&key=AIzaSyDRjnID7VBzMN-DAC0MgjXk8qGvynytFzE&maxResults=1`
   );
   const data = await resp.json();
   if (!data.items || !data.items.length) return alert("No video found");
@@ -1585,6 +1584,7 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
 
