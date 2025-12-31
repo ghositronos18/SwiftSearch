@@ -1335,11 +1335,22 @@ if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
     voiceBtn.classList.add('listening');
     voiceStatus.style.display = 'flex';
   };
-  
   recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    input.value = transcript;
+  const transcript = event.results[0][0].transcript;
+  input.value = transcript;
+  voiceStatus.style.display = 'none';
+
+  /* MUSIC-INTENT FILTER  */
+  const stayHereRegex = /\b(play|music|song|album|artist)\b/i;
+  if (stayHereRegex.test(transcript)) {
     handle(transcript);
+    return;                  
+  }
+
+  handle(transcript);        // normal search → new tab
+};
+  
+ 
   };
   recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
@@ -1627,6 +1638,7 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
 
