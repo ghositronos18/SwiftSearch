@@ -5,7 +5,7 @@
 <title>Swift Search</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+<!-- Favicon - Tab Logo -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22  viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
@@ -1164,13 +1164,12 @@ function removeFile(filename){
 async function autoPlayYouTube(query) {
   const resp = await fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
-      query)}&key=AIzaSyDRjnID7VBzMN-DAC0MgjXk8qGvynytFzE&maxResults=1`
+      query
+    )}&key=AIzaSyDRjnID7VBzMN-DAC0MgjXk8qGvynytFzE&maxResults=1`
   );
   const data = await resp.json();
   if (!data.items || !data.items.length) return alert("No video found");
-
-  const videoId = data.items[0].id.videoId;
-  embedPlayer(`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`);
+  embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
 }
 
 /* 2.  YouTube Music (open app; autoplay if user has it ON) */
@@ -1584,7 +1583,3 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
-
-
-
-
