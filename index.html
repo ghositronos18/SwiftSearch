@@ -1160,24 +1160,23 @@ function removeFile(filename){
 }
 
 /* - AUTO-PLAY MUSIC SERVICES  */
-/* 1.  YouTube (iframe autoplay) */
-async function autoPlayYouTube(query) {
-  const resp = await fetch(
+
+function autoPlayYouTubeMusic(query) {
+  /* same-tab trick: embed + open music tab */
+  fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
       query
     )}&key=AIzaSyDpdrqh32g1enFGoNq4m61IOEkJOEHKNQ0&maxResults=1`
-  );
-  const data = await resp.json();
-  if (!data.items || !data.items.length) return alert("No video found");
-  embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
+  )
+    .then((r) => r.json())
+    .then((d) => {
+      if (!d.items || !d.items.length) return alert("Song not found");
+      const id = d.items[0].id.videoId;
+      embedPlayer(`https://www.youtube.com/embed/${id}?autoplay=1&mute=0`);
+      window.open(`https://music.youtube.com/watch?v=${id}&list=RD${id}`, "_blank");
+    })
+    .catch((e) => console.error(e));
 }
-
-/*YouTube-Music “autoplay */
-  function autoPlayYouTubeMusic(query) {
-  /* plain search page */
-  window.open(`https://https://music.youtube.com.com/search?q=${encodeURIComponent(query)}`, "_blank");
-}
-
 
 function autoPlaySpotify(query) {
   /* plain search page */
@@ -1547,6 +1546,7 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
 
