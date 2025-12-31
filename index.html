@@ -1161,11 +1161,11 @@ function removeFile(filename){
 
 /* --------------  AUTO-PLAY MUSIC SERVICES  -------------- */
 /* 1.  YouTube (iframe autoplay) */
-async function autoPlayYouTube(query) {
+function autoPlayYouTube(query) {
   const resp = await fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
       query
-    )}&key=AIzaSyDpdrqh32g1enFGoNq4m61IOEkJOEHKNQ0&maxResults=1`
+    )}&key=AIzaSyBODMS2y-6wJyExZNftuzkLNiCzzxpK2PI&maxResults=1`
   );
   const data = await resp.json();
   if (!data.items || !data.items.length) return alert("No video found");
@@ -1181,9 +1181,6 @@ function autoPlayYouTubeMusic(query) {
 async function autoPlaySpotify(query) {
   window.open(`https://open.spotify.com/search/${encodeURIComponent(query)}`, "_blank");
 }
-  
-  
- 
 
 /* 4.  SoundCloud  */
 async function autoPlaySoundCloud(query) {
@@ -1536,6 +1533,7 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
 
