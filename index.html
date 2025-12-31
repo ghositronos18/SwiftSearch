@@ -1032,7 +1032,7 @@ function formatFileSize(bytes){
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-/*  FILE SERVICES  */
+/* ---------- FILE SERVICES ---------- */
 function openFileModal(){
   fileModal.style.display = 'flex';
   renderFileList();
@@ -1160,33 +1160,35 @@ function removeFile(filename){
 }
 
 /* - AUTO-PLAY MUSIC SERVICES  */
-
-function autoPlayYouTubeMusic(query) {
-  /* same-tab trick: embed + open music tab */
-  fetch(
+/* 1.  YouTube (iframe autoplay) */
+async function autoPlayYouTube(query) {
+  const resp = await fetch(
     `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
       query
     )}&key=AIzaSyDpdrqh32g1enFGoNq4m61IOEkJOEHKNQ0&maxResults=1`
-  )
-    .then((r) => r.json())
-    .then((d) => {
-      if (!d.items || !d.items.length) return alert("Song not found");
-      const id = d.items[0].id.videoId;
-      embedPlayer(`https://www.youtube.com/embed/${id}?autoplay=1&mute=0`);
-      window.open(`https://music.youtube.com/watch?v=${id}&list=RD${id}`, "_blank");
-    })
-    .catch((e) => console.error(e));
+  );
+  const data = await resp.json();
+  if (!data.items || !data.items.length) return alert("No video found");
+  embedPlayer(`https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1`);
 }
-
+  
+function playOnYouTubeMusic(songQuery){
+  window.open(`https://music.youtube.com/search?q=${encodeURIComponent(songQuery)}`, "_blank");
+}
 function autoPlaySpotify(query) {
-  /* plain search page */
+  
   window.open(`https://open.spotify.com/search/${encodeURIComponent(query)}`, "_blank");
 }
 
 function autoPlaySoundCloud(query) {
-  /* plain search page */
   window.open(`https://soundcloud.com/search?q=${encodeURIComponent(query)}`, "_blank");
 }
+
+
+
+
+
+
 
 /* shared helper: inject iframe or message into the card */
 function embedPlayer(src, msg) {
@@ -1206,7 +1208,7 @@ function embedPlayer(src, msg) {
     </iframe>`;
 }
 
-/*  MISC OLD HELPERS  */
+/* ---------- MISC OLD HELPERS ---------- */
 function parseMusicQuery(query){
   const patterns = [
     /play\s+"(.+?)"\s+by\s+(.+)/i,
@@ -1241,7 +1243,7 @@ function parseMusicQuery(query){
   };
 }
 
-/* - LOADING STATES  */
+/* ---------- LOADING STATES ---------- */
 function showLoading(){
   results.innerHTML = `
     <div class="card">
@@ -1251,7 +1253,7 @@ function showLoading(){
   `;
 }
 
-/*  VOICE SEARCH  */
+/* ---------- VOICE SEARCH ---------- */
 let isListening = false;
 let recognition = null;
 
@@ -1267,6 +1269,12 @@ if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
     voiceBtn.classList.add('listening');
     voiceStatus.style.display = 'flex';
   };
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    input.value = transcript;
+    handle(transcript);
+  };
   recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
   if (/\bplay\b/i.test(transcript)) {
@@ -1275,12 +1283,6 @@ if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
     handle(transcript);
     return;                       
   }
-  
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    input.value = transcript;
-    handle(transcript);
-  };
 
   
   input.value = transcript;
@@ -1451,7 +1453,7 @@ async function handle(query){
   `;
 }
 
-/*  KEYBOARD SHORTCUTS  */
+/* ---------- KEYBOARD SHORTCUTS ---------- */
 input.addEventListener("keydown", e => {
   if(e.key === "Enter"){
     handle(input.value);
@@ -1546,7 +1548,6 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
-
 
 
 
