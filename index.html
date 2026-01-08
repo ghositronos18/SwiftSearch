@@ -695,7 +695,7 @@ async function swiftAIQuery(prompt){
 
   try{
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key= ${SWIFT_AI_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key= AIzaSyCBH60P8aGwfrtP-AEG8YKV7NeiNDfletQ,
       {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
@@ -1203,14 +1203,14 @@ function embedPlayer(src, msg) {
   box.innerHTML = `<iframe
       src="${src}"
       width="100%"
-      height="300"
+      height="600"
       frameborder="0"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>`;
 }
 
-/* ---------- MISC OLD HELPERS ---------- */
+/* MISC OLD HELPERS  */
 function parseMusicQuery(query){
   const patterns = [
     /play\s+"(.+?)"\s+by\s+(.+)/i,
@@ -1255,7 +1255,7 @@ function showLoading(){
   `;
 }
 
-/* ---------- VOICE SEARCH ---------- */
+/*  VOICE SEARCH  */
 let isListening = false;
 let recognition = null;
 
@@ -1537,6 +1537,7 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
 
