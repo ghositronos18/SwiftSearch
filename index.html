@@ -606,7 +606,7 @@ const fileInput = document.getElementById("fileInput");
 const fileList = document.getElementById("fileList");
 
 /* ---------- SWIFT AI CONFIGURATION ---------- */
-let SWIFT_AI_KEY = null;
+let SWIFT_AI_KEY = ;
 const storedKey = localStorage.getItem("SWIFT_AI_KEY");
 let swiftAiMode = false;
 
@@ -671,7 +671,7 @@ function updateClearKeyButton(){
 
 function clearApiKey(){
   localStorage.removeItem('SWIFT_AI_KEY');
-  SWIFT_AI_KEY = null;
+  SWIFT_AI_KEY = ;
   updateClearKeyButton();
   results.innerHTML = `
     <div class="card">
@@ -695,7 +695,7 @@ async function swiftAIQuery(prompt){
 
   try{
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key= AIzaSyCBH60P8aGwfrtP-AEG8YKV7NeiNDfletQ,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3:generateContent?key=${AIzaSyCBH60P8aGwfrtP-AEG8YKV7NeiNDfletQ}`,
       {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
@@ -1537,6 +1537,7 @@ fileModal.addEventListener('click', (e) => {
 
 </body>
 </html>
+
 
 
 
